@@ -11,7 +11,7 @@ public:
 	}
 
 	BitSequence(const BitSequence &other) {
-		_next = 0;
+		_next = other._next;
 		_raw_bits = other._raw_bits;
 	}
 
