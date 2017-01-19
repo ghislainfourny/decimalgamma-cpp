@@ -1,6 +1,7 @@
+#include "decimal_decomposition.h"
+
 #include <iostream>
 #include <sstream>
-#include "decimal_decomposition.h"
 
 //#define DEBUG_BUILD
 
@@ -91,7 +92,7 @@ void DecimalDecomposition::encode(std::string literal) {
 bool DecimalDecomposition::isZero() const { return _digits.size() == 0; }
 bool DecimalDecomposition::isPositive() const { return _sign; }
 bool DecimalDecomposition::isExponentNonNegative() const { return _exponent_sign; }
-uint DecimalDecomposition::getAbsoluteExponent() const { return _absolute_exponent; }
+unsigned int DecimalDecomposition::getAbsoluteExponent() const { return _absolute_exponent; }
 void DecimalDecomposition::getDigits(std::vector<int> *digits) const { *digits = _digits; }
 
 void DecimalDecomposition::setZero()
@@ -109,7 +110,7 @@ void DecimalDecomposition::setExponentNonNegative(bool exponent_sign)
 	_exponent_sign = exponent_sign;
 }
 
-void DecimalDecomposition::setAbsoluteExponent(uint e) {
+void DecimalDecomposition::setAbsoluteExponent(unsigned int e) {
   _absolute_exponent = e;
 }
 
@@ -131,7 +132,7 @@ std::string DecimalDecomposition::str()
 	}
 	if(isExponentNonNegative())
 	{
-		uint exponent = getAbsoluteExponent();
+		unsigned int exponent = getAbsoluteExponent();
 		bool period = false;
 		for(int i = 0; i < _digits.size(); ++i)
 		{
@@ -151,7 +152,7 @@ std::string DecimalDecomposition::str()
 			--exponent;
 		}
 	} else {
-		uint exponent = getAbsoluteExponent();
+		unsigned int exponent = getAbsoluteExponent();
 		ss.put('0');
 		ss.put('.');
 		while(exponent > 1)

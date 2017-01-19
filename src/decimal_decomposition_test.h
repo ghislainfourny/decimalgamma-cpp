@@ -1,3 +1,5 @@
+#import <string>
+
 class DecimalDecompositionTest {
 public:
 	DecimalDecompositionTest() {}

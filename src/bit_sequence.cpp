@@ -1,20 +1,25 @@
+#include "bit_sequence.h"
+
 #include <vector>
 #include <sstream>
 #include <iostream>
 #include <iomanip>
-#include "bit_sequence.h"
 
 //#define DEBUG_APPEND
 //#define DEBUG_BUILD
 
 void BitSequence::appendBits(uint i, int n) {
+	if(n > 32)
+	{
+		std::cout << "Error: cannot write more than 32 bits at a time (" << n << " bits written." << std::endl;
+	}
 	if ((i & ((-1) << n)) > 0) {
 		std::cout << "Invalid parameters (" << n << " bits expected) :"
 				<< std::bitset<BUFFER_SIZE>(i) << std::endl;
 		exit(0);
 	}
 #ifdef DEBUG_APPEND
-	std::cout << "Before : " << dumpBits() << std::endl;
+	std::cout << "Before : " << toString() << std::endl;
 	std::cout << "Writing " << n << " - " << std::bitset<BUFFER_SIZE>(i) << std::endl;
 #endif
 	int buffer0 = (_next - 1) / BUFFER_SIZE;
@@ -55,7 +60,7 @@ void BitSequence::appendBits(uint i, int n) {
 		_raw_bits[buffer0] |= i << shift;
 		_next += n;
 #ifdef DEBUG_APPEND
-		std::cout << "After : " << _next << " - " << dumpBits() << std::endl;
+		std::cout << "After : " << _next << " - " << toString() << std::endl;
 #endif
 	} else {
 		shift = 0 - shift;
@@ -73,7 +78,7 @@ void BitSequence::appendBits(uint i, int n) {
 #endif
 			_raw_bits[buffer0] |= i >> shift;
 #ifdef DEBUG_APPEND
-			std::cout << "After : " << _next << " - " << dumpBits() << std::endl;
+			std::cout << "After : " << _next << " - " << toString() << std::endl;
 #endif
 		}
 		shift = BUFFER_SIZE - shift;
@@ -84,7 +89,7 @@ void BitSequence::appendBits(uint i, int n) {
 		_raw_bits[buffer1] |= i << shift;
 		_next += n;
 #ifdef DEBUG_APPEND
-		std::cout << "After : " << _next << " - " << dumpBits() << std::endl;
+		std::cout << "After : " << _next << " - " << toString() << std::endl;
 #endif
 	}
 }
@@ -96,3 +101,71 @@ std::string BitSequence::toString() {
 	}
 	return output.str();
 }
+
+unsigned int BitSequence::getBits(int i, int n)
+{
+	if(n > 32)
+	{
+		std::cout << "Error: cannot read more than 32 bits at a time (" << n << " bits requested." << std::endl;
+	}
+#ifdef DEBUG_APPEND
+	std::cout << "Get bits " << i << " " << n << std::endl;
+#endif
+	int buffer = i / BUFFER_SIZE;
+	int position_in_buffer = i % BUFFER_SIZE;
+  bool two_buffers = (position_in_buffer + n) > BUFFER_SIZE;
+	int offset = - position_in_buffer + BUFFER_SIZE - n;
+#ifdef DEBUG_APPEND
+	std::cout << "Buffer: " << buffer << std::endl;
+	std::cout << "position_in_buffer: " << position_in_buffer << std::endl;
+	std::cout << "two_buffers: " << two_buffers << std::endl;
+	std::cout << "offset: " << offset << std::endl;
+#endif
+	if(!two_buffers)
+	{
+		uint raw_bits = _raw_bits.at(buffer);
+		uint mask = (1 << (BUFFER_SIZE - position_in_buffer)) - 1;
+		if(position_in_buffer == 0)
+		{
+			mask = -1;
+		}
+		uint raw_bits_masked = raw_bits & mask;
+		uint raw_bits_offset = raw_bits_masked >> offset;
+	#ifdef DEBUG_APPEND
+		std::cout << "Raw bits: " << std::bitset<BUFFER_SIZE>(raw_bits) << std::endl;
+		std::cout << "Mask: " << std::bitset<BUFFER_SIZE>(mask) << std::endl;
+		std::cout << "Raw bits, masked " << std::bitset<BUFFER_SIZE>(raw_bits_masked) << std::endl;
+		std::cout << "Raw bits, offset: " << std::bitset<BUFFER_SIZE>(raw_bits_offset) << std::endl;
+	#endif
+		return raw_bits_offset;
+	} else {
+		int buffer2 = buffer + 1;
+		uint raw_bits = _raw_bits.at(buffer);
+		uint mask = (1 << (BUFFER_SIZE - position_in_buffer)) - 1;
+		if(position_in_buffer == 0)
+		{
+			mask = -1;
+		}
+		uint raw_bits_masked = raw_bits & mask;
+		uint raw_bits_offset = raw_bits_masked << -offset;
+	#ifdef DEBUG_APPEND
+		std::cout << "Raw bits: " << std::bitset<BUFFER_SIZE>(raw_bits) << std::endl;
+		std::cout << "Mask: " << std::bitset<BUFFER_SIZE>(mask) << std::endl;
+		std::cout << "Raw bits, masked " << std::bitset<BUFFER_SIZE>(raw_bits_masked) << std::endl;
+		std::cout << "Raw bits, offset: " << std::bitset<BUFFER_SIZE>(raw_bits_offset) << std::endl;
+	#endif
+		uint raw_bits2 = _raw_bits.at(buffer2);
+		int length2 = n - (BUFFER_SIZE - position_in_buffer);
+		uint mask2 = (-1) - ((1 << (BUFFER_SIZE - length2)) - 1);
+		uint raw_bits_masked2 = raw_bits2 & mask2;
+		int offset2 = BUFFER_SIZE - length2;
+		uint raw_bits_offset2 = raw_bits_masked2 >> offset2;
+#ifdef DEBUG_APPEND
+	std::cout << "Raw bits2: " << std::bitset<BUFFER_SIZE>(raw_bits2) << std::endl;
+	std::cout << "Mask2: " << std::bitset<BUFFER_SIZE>(mask2) << std::endl;
+	std::cout << "Raw bits, masked2: " << std::bitset<BUFFER_SIZE>(raw_bits_masked2) << std::endl;
+	std::cout << "Raw bits, offset2: " << std::bitset<BUFFER_SIZE>(raw_bits_offset2) << std::endl;
+#endif
+		return raw_bits_offset | raw_bits_offset2;
+	}
+};

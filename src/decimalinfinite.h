@@ -9,6 +9,8 @@ public:
 	DecimalInfinite(const DecimalInfinite &other);
 	DecimalInfinite(std::string literal);
 
+	std::string str();
+
 	std::string dumpBits();
 private:
 	BitSequence _bits;

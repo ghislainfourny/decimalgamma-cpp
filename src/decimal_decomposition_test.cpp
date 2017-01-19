@@ -1,14 +1,8 @@
-//============================================================================
-// Name        : helloworldcpp.cpp
-// Author      : somebody
-// Version     :
-// Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
-//============================================================================
+#include "decimal_decomposition_test.h"
+
+#include "decimal_decomposition.h"
 
 #include <iostream>
-#include "decimal_decomposition_test.h"
-#include "decimal_decomposition.h"
 using namespace std;
 
 void DecimalDecompositionTest::run() {

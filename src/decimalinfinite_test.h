@@ -1,5 +1,7 @@
 #include "decimalinfinite.h"
 
+#include <iostream>
+
 class DecimalInfiniteTest {
 public:
 	DecimalInfiniteTest() {}

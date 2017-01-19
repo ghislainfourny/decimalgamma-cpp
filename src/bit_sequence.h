@@ -1,5 +1,4 @@
 #include <vector>
-#include <iomanip>
 
 //#define DEBUG_APPEND
 //#define DEBUG_BUILD
@@ -15,7 +14,8 @@ public:
 		_raw_bits = other._raw_bits;
 	}
 
-	void appendBits(uint i, int n);
+	void appendBits(unsigned int i, int n);
+	unsigned int getBits(int i, int n);
 
 	std::string toString();
 

@@ -1,13 +1,6 @@
-//============================================================================
-// Name        : helloworldcpp.cpp
-// Author      : somebody
-// Version     :
-// Copyright   : Your copyright notice
-// Description : Hello World in C++, Ansi-style
-//============================================================================
+#include "decimalinfinite_test.h"
 
 #include <iostream>
-#include "decimalinfinite_test.h"
 using namespace std;
 
 void DecimalInfiniteTest::run() {

@@ -1,9 +1,11 @@
+#include "decimalinfinite.h"
+
+#include "decimal_decomposition.h"
+
 #include <iostream>
 #include <sstream>
 #include <iomanip>
 #include <cmath>
-#include "decimalinfinite.h"
-#include "decimal_decomposition.h"
 
 #define LT(n) n, n, n, n, n, n, n, n, n, n, n, n, n, n, n, n
 
@@ -121,3 +123,7 @@ unsigned int DecimalInfinite::log2(unsigned int v) {
 	return LogTable256[v];
 }
 
+std::string DecimalInfinite::str()
+{
+	return "";
+}
