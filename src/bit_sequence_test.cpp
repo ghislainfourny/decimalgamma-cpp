@@ -14,6 +14,7 @@ void BitSequenceTest::run() {
 	assertIntEqual(0, s.getBits(1, 1));
 	assertIntEqual(0, s.getBits(1, 2));
 	assertIntEqual(0, s.getBits(1, 3));
+	assertIntEqual(0, s.getBits(1, 32));
 	s.appendBits(0b1111111111110, 13);
 	assertEqual("10111111111111000000000000000000", s.toString());
 	assertIntEqual(0b101111111111110, s.getBits(0, 15));

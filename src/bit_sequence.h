@@ -19,6 +19,8 @@ public:
 
 	std::string toString();
 
+	int length();
+
 private:
 	std::vector<int> _raw_bits;
 	int _next;

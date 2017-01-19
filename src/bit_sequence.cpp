@@ -123,7 +123,11 @@ unsigned int BitSequence::getBits(int i, int n)
 #endif
 	if(!two_buffers)
 	{
-		uint raw_bits = _raw_bits.at(buffer);
+		uint raw_bits = 0;
+		if(buffer < _raw_bits.size())
+		{
+  		raw_bits = _raw_bits.at(buffer);
+		}
 		uint mask = (1 << (BUFFER_SIZE - position_in_buffer)) - 1;
 		if(position_in_buffer == 0)
 		{
@@ -140,7 +144,11 @@ unsigned int BitSequence::getBits(int i, int n)
 		return raw_bits_offset;
 	} else {
 		int buffer2 = buffer + 1;
-		uint raw_bits = _raw_bits.at(buffer);
+		uint raw_bits = 0;
+		if(buffer < _raw_bits.size())
+		{
+  		raw_bits = _raw_bits.at(buffer);
+		}
 		uint mask = (1 << (BUFFER_SIZE - position_in_buffer)) - 1;
 		if(position_in_buffer == 0)
 		{
@@ -153,8 +161,13 @@ unsigned int BitSequence::getBits(int i, int n)
 		std::cout << "Mask: " << std::bitset<BUFFER_SIZE>(mask) << std::endl;
 		std::cout << "Raw bits, masked " << std::bitset<BUFFER_SIZE>(raw_bits_masked) << std::endl;
 		std::cout << "Raw bits, offset: " << std::bitset<BUFFER_SIZE>(raw_bits_offset) << std::endl;
+		std::cout << "Raw bits, size: " << _raw_bits.size() << std::endl;
 	#endif
-		uint raw_bits2 = _raw_bits.at(buffer2);
+		uint raw_bits2 = 0;
+		if(buffer2 < _raw_bits.size())
+		{
+  		raw_bits2 = _raw_bits.at(buffer2);
+		}
 		int length2 = n - (BUFFER_SIZE - position_in_buffer);
 		uint mask2 = (-1) - ((1 << (BUFFER_SIZE - length2)) - 1);
 		uint raw_bits_masked2 = raw_bits2 & mask2;
@@ -169,3 +182,8 @@ unsigned int BitSequence::getBits(int i, int n)
 		return raw_bits_offset | raw_bits_offset2;
 	}
 };
+
+int BitSequence::length()
+{
+	return _next;
+}

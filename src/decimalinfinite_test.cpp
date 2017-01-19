@@ -19,8 +19,8 @@ void DecimalInfiniteTest::run() {
 	test("-1", "00010100100000000000000000000000");
 	test("0", "10000000000000000000000000000000");
 	test("0.02", "10001110010000000000000000000000");
-	test(".02", "10001110010000000000000000000000");
 	test("0.2", "10010001000000000000000000000000");
+	std::cout << "Test." << std::endl;
 	test("1", "10101000100000000000000000000000");
 	test("2", "10101001000000000000000000000000");
 	test("3", "10101001100000000000000000000000");
@@ -41,3 +41,17 @@ void DecimalInfiniteTest::run() {
 	test("20000000", "10111001000100000000000000000000");
 	test("123456789", "1011100110001001110101010001101111101111010000000000000000000000");
 }
+
+
+bool DecimalInfiniteTest::assertEqual(std::string expected, std::string actual) {
+	if (actual == expected) {
+		std::cout << "[PASSED]" << std::endl;
+		return true;
+	} else {
+		std::cout << "[FAIL]" << std::endl;
+		std::cout << "Actual:" << actual << std::endl;
+		std::cout << "Expected: " << expected << std::endl;
+		return false;
+	}
+}
+

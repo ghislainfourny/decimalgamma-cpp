@@ -117,6 +117,11 @@ void DecimalDecomposition::setAbsoluteExponent(unsigned int e) {
 void DecimalDecomposition::set(const std::vector<int> &digits)
 {
 	_digits = digits;
+	int i = _digits.size() - 1;
+	while (i != -1 && _digits.at(i) == 0) {
+		_digits.pop_back();
+		--i;
+	}
 }
 
 std::string DecimalDecomposition::str()
