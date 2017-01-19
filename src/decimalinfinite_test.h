@@ -9,7 +9,7 @@ public:
 private:
   static bool assertEqual(std::string, std::string);
   void test(std::string literal, std::string expected) {
-  	DecimalInfinite d(literal);
+  	decimalinfinite::Decimal d(literal);
   	// Tests that the expected encoding is calculated.
   	assertEqual(d.dumpBits(), expected);
   	// Tests that decoding against leads to the original literal.

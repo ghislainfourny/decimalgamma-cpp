@@ -1,6 +1,6 @@
 #include "decimalinfinite_test.h"
-#include "decimal_decomposition_test.h"
-#include "bit_sequence_test.h"
+#include "util/decimal_decomposition_test.h"
+#include "util/bit_sequence_test.h"
 
 #include <iostream>
 using namespace std;

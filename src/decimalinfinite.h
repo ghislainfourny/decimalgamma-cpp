@@ -1,4 +1,4 @@
-#include "bit_sequence.h"
+#include "util/bit_sequence.h"
 
 //#define DEBUG_APPEND
 //#define DEBUG_BUILD
@@ -6,20 +6,22 @@
 /*
  * Implements the DecimalInfinite encoding.
  */
-class DecimalInfinite {
+namespace decimalinfinite
+{
+class Decimal {
 public:
 	/*
 	 * Constructs zero.
 	 */
-	DecimalInfinite();
+	Decimal();
 	/*
 	 * Copies a decimal.
 	 */
-	DecimalInfinite(const DecimalInfinite &other);
+	Decimal(const Decimal &other);
 	/*
 	 * Creates (encodes) a decimal from a literal of the form dddddd.dddddd or -dddddd.dddddd.
 	 */
-	DecimalInfinite(std::string literal);
+	Decimal(std::string literal);
 
 	/*
 	 * Outputs (decodes) the decimal as a literal.
@@ -34,7 +36,8 @@ private:
 	// The internal encoding
 	BitSequence _bits;
 
-	// This is used for speed-up.
+	// This is used for speed-up (computation of log2 in constant time).
 	static const char LogTable256[256];
 	static inline unsigned int log2(unsigned int v);
 };
+}
