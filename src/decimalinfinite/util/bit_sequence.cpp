@@ -99,7 +99,7 @@ std::string BitSequence::str() {
 	for (int i = 0; i < _raw_bits.size(); ++i) {
 		output << std::bitset<BUFFER_SIZE>(_raw_bits[i]);
 	}
-	return output.str();
+	return output.str().substr(0, _next);
 }
 
 unsigned int BitSequence::getBits(int i, int n)
