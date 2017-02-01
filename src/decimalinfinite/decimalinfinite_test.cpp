@@ -41,16 +41,3 @@ void DecimalInfiniteTest::run() {
 	test("123456789", "1011100110001001110101010001101111101111010");
 }
 
-
-bool DecimalInfiniteTest::assertEqual(std::string expected, std::string actual) {
-	if (actual == expected) {
-		std::cout << "[PASSED]" << std::endl;
-		return true;
-	} else {
-		std::cout << "[FAIL]" << std::endl;
-		std::cout << "Actual:" << actual << std::endl;
-		std::cout << "Expected: " << expected << std::endl;
-		return false;
-	}
-}
-

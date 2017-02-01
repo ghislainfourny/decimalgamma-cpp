@@ -2,17 +2,18 @@
 
 #include <iostream>
 
+#include "util/test.h"
+
 class DecimalInfiniteTest {
 public:
 	DecimalInfiniteTest() {}
   void run();
 private:
-  static bool assertEqual(std::string, std::string);
   void test(std::string literal, std::string expected) {
   	decimalinfinite::Decimal d(literal);
   	// Tests that the expected encoding is calculated.
-  	assertEqual(expected, d.dumpBits());
+  	Test::assertStringEqual(expected, d.dumpBits());
   	// Tests that decoding against leads to the original literal.
-  	assertEqual(literal, d.str());
+  	Test::assertStringEqual(literal, d.str());
   };
 };
