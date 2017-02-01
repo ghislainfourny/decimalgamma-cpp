@@ -108,7 +108,7 @@ decimalinfinite::Decimal::Decimal(std::string literal) {
 }
 
 std::string decimalinfinite::Decimal::dumpBits() {
-	return _bits.toString();
+	return _bits.str();
 }
 
 unsigned int decimalinfinite::Decimal::log2(unsigned int v) {

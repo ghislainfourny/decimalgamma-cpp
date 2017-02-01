@@ -19,7 +19,7 @@ void BitSequence::appendBits(uint i, int n) {
 		exit(0);
 	}
 #ifdef DEBUG_APPEND
-	std::cout << "Before : " << toString() << std::endl;
+	std::cout << "Before : " << str() << std::endl;
 	std::cout << "Writing " << n << " - " << std::bitset<BUFFER_SIZE>(i) << std::endl;
 #endif
 	int buffer0 = (_next - 1) / BUFFER_SIZE;
@@ -60,7 +60,7 @@ void BitSequence::appendBits(uint i, int n) {
 		_raw_bits[buffer0] |= i << shift;
 		_next += n;
 #ifdef DEBUG_APPEND
-		std::cout << "After : " << _next << " - " << toString() << std::endl;
+		std::cout << "After : " << _next << " - " << str() << std::endl;
 #endif
 	} else {
 		shift = 0 - shift;
@@ -78,7 +78,7 @@ void BitSequence::appendBits(uint i, int n) {
 #endif
 			_raw_bits[buffer0] |= i >> shift;
 #ifdef DEBUG_APPEND
-			std::cout << "After : " << _next << " - " << toString() << std::endl;
+			std::cout << "After : " << _next << " - " << str() << std::endl;
 #endif
 		}
 		shift = BUFFER_SIZE - shift;
@@ -89,12 +89,12 @@ void BitSequence::appendBits(uint i, int n) {
 		_raw_bits[buffer1] |= i << shift;
 		_next += n;
 #ifdef DEBUG_APPEND
-		std::cout << "After : " << _next << " - " << toString() << std::endl;
+		std::cout << "After : " << _next << " - " << str() << std::endl;
 #endif
 	}
 }
 
-std::string BitSequence::toString() {
+std::string BitSequence::str() {
 	std::stringstream output;
 	for (int i = 0; i < _raw_bits.size(); ++i) {
 		output << std::bitset<BUFFER_SIZE>(_raw_bits[i]);

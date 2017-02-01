@@ -17,7 +17,7 @@ public:
 	void appendBits(unsigned int i, int n);
 	unsigned int getBits(int i, int n);
 
-	std::string toString();
+	std::string str();
 
 	int length();
 
