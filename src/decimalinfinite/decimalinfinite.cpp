@@ -85,6 +85,7 @@ decimalinfinite::Decimal::Decimal(std::string literal) {
 	while (next < digits.size()) {
 		int a = 0, b = 0, c = 0;
 		a = digits.at(next++);
+		bool isLast = (next + 3 >= digits.size());
 		if (next < digits.size()) {
 			b = digits.at(next++);
 		}
@@ -93,7 +94,11 @@ decimalinfinite::Decimal::Decimal(std::string literal) {
 		}
 		unsigned int towrite = 100 * a + 10 * b + c;
 		if (!decomposition.isPositive()) {
-			towrite = 999 - towrite;
+			if(isLast) {
+				towrite = 1000 - towrite;
+			} else {
+			  towrite = 999 - towrite;
+			}
 		}
 #ifdef DEBUG_BUILD
 		std::cout << "Write declet: " << towrite << std::endl;
@@ -189,9 +194,14 @@ std::string decimalinfinite::Decimal::str()
 	while(start < _bits.length())
 	{
 		int declet = _bits.getBits(start, 10);
+		int isLast = (start + 10 >= _bits.length());
 		if(!result.isPositive())
 		{
-			declet = 999 - declet;
+			if(isLast) {
+				declet = 1000 - declet;
+			} else {
+				declet = 999 - declet;
+			}
 		}
 		digits.push_back(declet / 100);
 		digits.push_back((declet % 100) / 10);
