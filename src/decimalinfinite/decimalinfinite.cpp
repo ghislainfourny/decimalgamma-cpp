@@ -130,19 +130,25 @@ unsigned int decimalinfinite::Decimal::log2(unsigned int v) {
 
 std::string decimalinfinite::Decimal::str()
 {
+	DecimalDecomposition result;
+	getDecomposition(&result);
+	return result.str();
+}
+
+void decimalinfinite::Decimal::getDecomposition(::DecimalDecomposition *result)
+{
 	if(_bits.getBits(0, 32) == (1 << 30))
 	{
-		return "0";
+		result->setZero();
 	}
-	DecimalDecomposition result;
 	unsigned int sign_bits = _bits.getBits(0, 2);
 	if(sign_bits == 0b00)
 	{
-		result.setPositive(false);
+		result->setPositive(false);
 	}
 	else if(sign_bits == 0b10)
 	{
-		result.setPositive(true);
+		result->setPositive(true);
 	} else {
 		std::cerr << "Decoding error: invalid first two bits: " << std::bitset<2>(sign_bits) << std::endl;
 	}
@@ -168,16 +174,16 @@ std::string decimalinfinite::Decimal::str()
 		absolute_exponent = absolute_exponent xor ((1 << le) - 1);
 	}
 	absolute_exponent = (1 << le) + absolute_exponent - 2;
-	result.setAbsoluteExponent(absolute_exponent);
-	if(exponent_inverted xor result.isPositive())
+	result->setAbsoluteExponent(absolute_exponent);
+	if(exponent_inverted xor result->isPositive())
 	{
-		result.setExponentNonNegative(true);
+		result->setExponentNonNegative(true);
 	} else {
-		result.setExponentNonNegative(false);
+		result->setExponentNonNegative(false);
 	}
 	int start = 3+2*le;
 	uint tetrade = _bits.getBits(start, 4);
-	if(!result.isPositive())
+	if(!result->isPositive())
 	{
 		tetrade = 10 - tetrade;
 	}
@@ -195,7 +201,7 @@ std::string decimalinfinite::Decimal::str()
 	{
 		int declet = _bits.getBits(start, 10);
 		int isLast = (start + 10 >= _bits.length());
-		if(!result.isPositive())
+		if(!result->isPositive())
 		{
 			if(isLast) {
 				declet = 1000 - declet;
@@ -208,7 +214,6 @@ std::string decimalinfinite::Decimal::str()
 		digits.push_back(declet % 10);
 		start += 10;
 	}
-	result.set(digits);
-	return result.str();
+	result->set(digits);
 }
 

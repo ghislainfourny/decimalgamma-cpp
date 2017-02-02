@@ -3,9 +3,12 @@
 //#define DEBUG_APPEND
 //#define DEBUG_BUILD
 
+class DecimalDecomposition;
+
 /*
  * Implements the DecimalInfinite encoding.
  */
+
 namespace decimalinfinite
 {
 class Decimal {
@@ -27,6 +30,11 @@ public:
 	 * Outputs (decodes) the decimal as a literal.
 	 */
 	std::string str();
+
+	/*
+	 * Outputs (decodes) the decimal as a literal.
+	 */
+	void getDecomposition(::DecimalDecomposition *decomposition);
 
 	/*
 	 * For curious people: outputs the actual encoding as a string of 0s and 1s.
