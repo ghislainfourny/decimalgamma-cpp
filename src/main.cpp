@@ -6,14 +6,17 @@
 using namespace std;
 
 int main() {
+	std::cout << "Bit sequence tests." << std::endl;
 	{
 		BitSequenceTest t;
 		t.run();
 	}
+	std::cout << "Decomposition tests." << std::endl;
 	{
 		DecimalDecompositionTest t;
 		t.run();
 	}
+	std::cout << "Encoding tests." << std::endl;
 	{
 		DecimalInfiniteTest t;
 		t.run();
