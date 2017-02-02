@@ -23,9 +23,17 @@ decimalinfinite::Decimal::Decimal(const decimalinfinite::Decimal &other) {
 	_bits = other._bits;
 }
 
-decimalinfinite::Decimal::Decimal(std::string literal) {
+decimalinfinite::Decimal::Decimal(std::string literal)
+{
 	DecimalDecomposition decomposition(literal);
+	init(decomposition);
+}
 
+decimalinfinite::Decimal::Decimal(const DecimalDecomposition& decomposition) {
+	init(decomposition);
+}
+
+void decimalinfinite::Decimal::init (const DecimalDecomposition& decomposition) {
 	int abs_offset_exponent = decomposition.getAbsoluteExponent() + 2;
 	bool invert_exponent_encoding = (decomposition.isPositive() != decomposition.isExponentNonNegative());
 #ifdef DEBUG_BUILD
