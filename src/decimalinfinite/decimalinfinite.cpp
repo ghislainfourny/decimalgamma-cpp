@@ -222,6 +222,6 @@ void decimalinfinite::Decimal::getDecomposition(::DecimalDecomposition *result)
 		digits.push_back(declet % 10);
 		start += 10;
 	}
-	result->set(digits);
+	result->setDigits(digits);
 }
 

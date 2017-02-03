@@ -142,7 +142,7 @@ void DecimalDecomposition::setExponent(int e) {
 	}
 }
 
-void DecimalDecomposition::set(const std::vector<int> &digits)
+void DecimalDecomposition::setDigits(const std::vector<int> &digits)
 {
 	_digits = digits;
 	int i = _digits.size() - 1;
@@ -213,7 +213,7 @@ void DecimalDecomposition::copy(const DecimalDecomposition& other)
 	setExponentNonNegative(other.isExponentNonNegative());
 	std::vector<int> digits;
 	other.getDigits(&digits);
-	set(digits);
+	setDigits(digits);
 }
 
 void DecimalDecomposition::shiftExponent(int newExponent)
@@ -233,6 +233,14 @@ void DecimalDecomposition::shiftExponent(int newExponent)
 
 void DecimalDecomposition::add(const DecimalDecomposition& left, const DecimalDecomposition& right, DecimalDecomposition* result)
 {
+	if(left.isZero()) {
+		 result = new DecimalDecomposition(right);
+		 return;
+	}
+	if(right.isZero()) {
+		 result = new DecimalDecomposition(left);
+		 return;
+	}
   int exponent_left = left.getExponent();
   int exponent_right = right.getExponent();
   DecimalDecomposition* other;
@@ -258,13 +266,16 @@ void DecimalDecomposition::add(const DecimalDecomposition& left, const DecimalDe
   {
   	digits[i] += digitsOther[i];
   }
+  result->setDigits(digits);
+  result->renormalize();
+  delete other;
 }
 
 bool DecimalDecomposition::isNormalized()
 {
 	for(std::vector<int>::iterator it = _digits.begin(); it != _digits.end(); ++it)
 	{
-		if(*it < 0 or *it > 9)
+		if(*it < 0 || *it > 9)
 			return false;
 	}
 	return true;
@@ -274,7 +285,7 @@ bool DecimalDecomposition::isNormalized()
 void DecimalDecomposition::renormalize()
 {
 	int carry = 0;
-	for(std::vector<int>::iterator it = _digits.end(); it != _digits.begin(); --it)
+	for(std::vector<int>::reverse_iterator it = _digits.rbegin(); it != _digits.rend(); ++it)
 	{
 		*it += carry;
 		carry = *it / 10;
@@ -284,6 +295,7 @@ void DecimalDecomposition::renormalize()
 	{
 		while (carry != 0) {
 			++_absolute_exponent;
+			_digits.insert(_digits.begin(), carry % 10);
 			carry /= 10;
 		}
 	}
@@ -298,6 +310,7 @@ void DecimalDecomposition::renormalize()
 			else {
 				--_absolute_exponent;
 			}
+			_digits.insert(_digits.begin(), carry % 10);
 			carry /= 10;
 		}
 	}

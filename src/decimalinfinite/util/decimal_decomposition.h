@@ -23,7 +23,7 @@ public:
 	void setExponent(int);
 	void setAbsoluteExponent(unsigned int e);
 	void shiftExponent(int newExponent);
-	void set(const std::vector<int> &digits);
+	void setDigits(const std::vector<int> &digits);
 	void copy(const DecimalDecomposition& other);
 	void renormalize();
 
