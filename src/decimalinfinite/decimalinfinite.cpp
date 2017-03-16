@@ -2,6 +2,7 @@
 
 #include "util/decimal_decomposition.h"
 
+#include <bitset>
 #include <iostream>
 #include <sstream>
 #include <iomanip>

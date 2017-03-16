@@ -1,5 +1,6 @@
 #include "bit_sequence.h"
 
+#include <bitset>
 #include <vector>
 #include <sstream>
 #include <iostream>
