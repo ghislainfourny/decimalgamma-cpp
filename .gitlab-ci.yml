@@ -1,0 +1,19 @@
+build:
+  stage: build
+  image: rikorose/gcc-cmake
+  script:
+    - cd gen
+    - cmake ../src
+    - make
+  artifacts:
+    paths:
+      - gen
+
+test:
+  stage: test
+  image: rikorose/gcc-cmake
+  script:
+    - cd gen
+    - make test
+  dependencies:
+    - build
