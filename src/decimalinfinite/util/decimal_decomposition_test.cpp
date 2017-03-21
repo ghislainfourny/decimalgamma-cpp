@@ -8,7 +8,7 @@ using namespace std;
 
 void DecimalDecompositionTest::run() {
 	{
-		std::string s = "-123456789";
+		const char* s = "-123456789";
 		std::cout << "Testing " << s << std::endl;
 		DecimalDecomposition d(s);
 		Test::assertBoolEqual(false, d.isZero());
@@ -21,7 +21,7 @@ void DecimalDecompositionTest::run() {
 	}
 
 	{
-		std::string s = "-1000";
+		const char* s = "-1000";
 		std::cout << "Testing " << s << std::endl;
 		DecimalDecomposition d(s);
 		Test::assertBoolEqual(false, d.isZero());
@@ -34,7 +34,7 @@ void DecimalDecompositionTest::run() {
 	}
 
 	{
-		std::string s = "-1";
+		const char* s = "-1";
 		std::cout << "Testing " << s << std::endl;
 		DecimalDecomposition d(s);
 		Test::assertBoolEqual(false, d.isZero());
@@ -47,7 +47,7 @@ void DecimalDecompositionTest::run() {
 	}
 
 	{
-		std::string s = "0";
+		const char* s = "0";
 		std::cout << "Testing " << s << std::endl;
 		DecimalDecomposition d(s);
 		Test::assertBoolEqual(true, d.isZero());
@@ -55,7 +55,7 @@ void DecimalDecompositionTest::run() {
 	}
 
 	{
-		std::string s = "-0.1";
+		const char* s = "-0.1";
 		std::cout << "Testing " << s << std::endl;
 		DecimalDecomposition d(s);
 		Test::assertBoolEqual(false, d.isZero());
@@ -68,7 +68,7 @@ void DecimalDecompositionTest::run() {
 	}
 
 	{
-		std::string s = "0.1";
+		const char* s = "0.1";
 		std::cout << "Testing " << s << std::endl;
 		DecimalDecomposition d(s);
 		Test::assertBoolEqual(false, d.isZero());
@@ -81,7 +81,7 @@ void DecimalDecompositionTest::run() {
 	}
 
 	{
-		std::string s = "1123.12345234";
+		const char* s = "1123.12345234";
 		std::cout << "Testing " << s << std::endl;
 		DecimalDecomposition d(s);
 		Test::assertBoolEqual(false, d.isZero());
@@ -94,7 +94,7 @@ void DecimalDecompositionTest::run() {
 	}
 
 	{
-		std::string s = "-1123.12345234";
+		const char* s = "-1123.12345234";
 		std::cout << "Testing " << s << std::endl;
 		DecimalDecomposition d(s);
 		Test::assertBoolEqual(false, d.isZero());
@@ -107,7 +107,7 @@ void DecimalDecompositionTest::run() {
 	}
 
 	{
-		std::string s = "-0.0000000112312345234";
+		const char* s = "-0.0000000112312345234";
 		std::cout << "Testing " << s << std::endl;
 		DecimalDecomposition d(s);
 		Test::assertBoolEqual(false, d.isZero());
@@ -120,7 +120,7 @@ void DecimalDecompositionTest::run() {
 	}
 
 	{
-		std::string s = "0.0000000112312345234";
+		const char* s = "0.0000000112312345234";
 		std::cout << "Testing " << s << std::endl;
 		DecimalDecomposition d(s);
 		Test::assertBoolEqual(false, d.isZero());

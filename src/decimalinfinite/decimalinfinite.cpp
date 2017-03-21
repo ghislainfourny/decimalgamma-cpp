@@ -20,11 +20,7 @@ decimalinfinite::Decimal::Decimal() {
 	_bits.appendBits(0b10, 2);
 }
 
-decimalinfinite::Decimal::Decimal(const decimalinfinite::Decimal &other) {
-	_bits = other._bits;
-}
-
-decimalinfinite::Decimal::Decimal(std::string literal)
+decimalinfinite::Decimal::Decimal(const char* const literal)
 {
 	DecimalDecomposition decomposition(literal);
 	init(decomposition);

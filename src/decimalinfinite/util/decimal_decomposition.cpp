@@ -9,7 +9,7 @@ DecimalDecomposition::DecimalDecomposition() {
 	encode("0");
 }
 
-DecimalDecomposition::DecimalDecomposition(std::string literal) {
+DecimalDecomposition::DecimalDecomposition(const char* const literal) {
 	encode(literal);
 }
 
@@ -18,13 +18,13 @@ DecimalDecomposition::DecimalDecomposition(const DecimalDecomposition& other)
 	copy(other);
 }
 
-void DecimalDecomposition::encode(std::string literal) {
+void DecimalDecomposition::encode(const char* const literal) {
 	_sign = true;
 	bool period = false;
 	bool digit = false;
 	int exponent = -1;
-	for (int p = 0; p < literal.length(); ++p) {
-		char c = literal.at(p);
+	for (const char* p = literal; *p != '\0'; ++p) {
+		char c = *p;
 
 		if (c == '0') {
 			if (digit) {
@@ -51,7 +51,7 @@ void DecimalDecomposition::encode(std::string literal) {
 		}
 
 		if (c == '-') {
-			if (p != 0) {
+			if (p != literal) {
 				std::cout << "Error: illegal literal." << std::endl;
 				exit(0);
 			}

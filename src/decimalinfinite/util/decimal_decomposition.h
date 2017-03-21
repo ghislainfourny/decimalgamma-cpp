@@ -4,7 +4,7 @@
 class DecimalDecomposition {
 public:
 	DecimalDecomposition();
-	DecimalDecomposition(std::string literal);
+	DecimalDecomposition(const char* const literal);
 	DecimalDecomposition(const DecimalDecomposition& other);
 
 	std::string str();
@@ -35,6 +35,6 @@ private:
 	unsigned int _absolute_exponent;
 	std::vector<int> _digits;
 
-	void encode(std::string literal);
+	void encode(const char* const literal);
 };
 
