@@ -1,7 +1,7 @@
 #include "bit_sequence_test.h"
 
 #include "bit_sequence.h"
-#include "Test.h"
+#include "test.h"
 
 #include <iostream>
 
