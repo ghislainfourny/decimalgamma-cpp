@@ -16,11 +16,11 @@ public:
 	}
 
 	void appendBits(unsigned int i, int n);
-	unsigned int getBits(int i, int n);
+	unsigned int getBits(int i, int n) const;
 
 	std::string str();
 
-	int length();
+	int length() const;
 
 private:
 	std::vector<int> _raw_bits;

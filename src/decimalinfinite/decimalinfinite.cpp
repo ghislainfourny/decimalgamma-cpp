@@ -133,14 +133,14 @@ unsigned int decimalinfinite::Decimal::log2(unsigned int v) {
 	return LogTable256[v];
 }
 
-std::string decimalinfinite::Decimal::str()
+std::string decimalinfinite::Decimal::str() const
 {
 	DecimalDecomposition result;
 	getDecomposition(&result);
 	return result.str();
 }
 
-void decimalinfinite::Decimal::getDecomposition(::DecimalDecomposition *result)
+void decimalinfinite::Decimal::getDecomposition(::DecimalDecomposition *result) const
 {
 	if(_bits.getBits(0, 32) == (1 << 30))
 	{
