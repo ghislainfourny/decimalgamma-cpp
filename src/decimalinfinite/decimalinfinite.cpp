@@ -117,7 +117,7 @@ std::string di::decimal::dumpBits() {
 }
 
 unsigned int di::decimal::log2(unsigned int v) {
-	register unsigned int tt = v >> 24;
+	unsigned int tt = v >> 24;
 
 	if (tt) {
 		return 24 + LogTable256[tt];
@@ -222,3 +222,46 @@ void di::decimal::getDecomposition(::DecimalDecomposition *result) const
 	result->setDigits(digits);
 }
 
+bool di::decimal::operator==(const decimal& other) const
+{
+    int lengthl = _bits.length();
+    int lengthr = other._bits.length();
+
+    int maxlength = std::max(lengthl, lengthr);
+
+    for (int i = 0; i < maxlength; i += 32)
+    {
+        unsigned int bitsl = _bits.getBits(i, 32);
+        unsigned int bitsr = other._bits.getBits(i, 32);
+
+        if(bitsl != bitsr)
+        {
+            return false;
+        }
+    }
+    return true;
+};
+
+bool di::decimal::operator<(const decimal& other) const
+{
+    int lengthl = _bits.length();
+    int lengthr = other._bits.length();
+
+    int maxlength = std::max(lengthl, lengthr);
+
+    for (int i = 0; i < maxlength; i += 32)
+    {
+        unsigned int bitsl = _bits.getBits(i, 32);
+        unsigned int bitsr = other._bits.getBits(i, 32);
+
+        if(bitsl < bitsr)
+        {
+            return true;
+        }
+        if(bitsl > bitsr)
+        {
+            return false;
+        }
+    }
+    return false;
+};

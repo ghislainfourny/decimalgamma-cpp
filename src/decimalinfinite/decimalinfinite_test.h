@@ -10,4 +10,5 @@ public:
   void run();
 private:
   void test(std::string literal, std::string expected);
+  void testComparison();
 };
