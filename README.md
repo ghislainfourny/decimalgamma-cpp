@@ -8,3 +8,13 @@ cd gen
 cmake ../src
 make
 ```
+
+### Code formatting
+You can check if some files do not adhere to the code format:
+```bash
+make check-format
+```
+To automatically apply the format, do this:
+```bash
+make fix-format
+```
