@@ -117,7 +117,7 @@ std::string di::decimal::dumpBits() {
 }
 
 unsigned int di::decimal::log2(unsigned int v) {
-	register unsigned int tt = v >> 24;
+	unsigned int tt = v >> 24;
 
 	if (tt) {
 		return 24 + LogTable256[tt];
