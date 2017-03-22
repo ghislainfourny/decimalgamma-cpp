@@ -1,6 +1,9 @@
 build:
   stage: build
   image: rikorose/gcc-cmake
+  before_script:
+    - git submodule sync --recursive
+    - git submodule update --init --recursive
   script:
     - cd gen
     - cmake ../src
@@ -14,13 +17,16 @@ test:
   image: rikorose/gcc-cmake
   script:
     - cd gen
-    - make test
+    - make test CTEST_OUTPUT_ON_FAILURE=1
   dependencies:
     - build
 
 format:
   stage: build
   image: walberla/clang-tidy
+  before_script:
+    - git submodule sync --recursive
+    - git submodule update --init --recursive
   script:
     - cd gen
     - cmake ../src

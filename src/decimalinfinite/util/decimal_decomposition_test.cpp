@@ -1,136 +1,132 @@
-#include "decimal_decomposition_test.h"
+#include <gtest/gtest.h>
 
 #include "decimal_decomposition.h"
-#include "test.h"
 
-#include <iostream>
-using namespace std;
-
-void DecimalDecompositionTest::run()
+TEST(DecimalDecomposition, BasicOperations)
 {
     {
         const char* s = "-123456789";
         std::cout << "Testing " << s << std::endl;
         DecimalDecomposition d(s);
-        Test::assertBoolEqual(false, d.isZero());
-        Test::assertBoolEqual(false, d.isPositive());
-        Test::assertBoolEqual(true, d.isExponentNonNegative());
-        Test::assertIntEqual(8, d.getAbsoluteExponent());
-        Test::assertIntEqual(8, d.getExponent());
-        Test::assertBoolEqual(true, d.isNormalized());
-        Test::assertStringEqual(s, d.str());
+        ASSERT_FALSE(d.isZero());
+        ASSERT_FALSE(d.isPositive());
+        ASSERT_TRUE(d.isExponentNonNegative());
+        ASSERT_EQ(8, d.getAbsoluteExponent());
+        ASSERT_EQ(8, d.getExponent());
+        ASSERT_TRUE(d.isNormalized());
+        ASSERT_EQ(s, d.str());
     }
 
     {
         const char* s = "-1000";
         std::cout << "Testing " << s << std::endl;
         DecimalDecomposition d(s);
-        Test::assertBoolEqual(false, d.isZero());
-        Test::assertBoolEqual(false, d.isPositive());
-        Test::assertBoolEqual(true, d.isExponentNonNegative());
-        Test::assertIntEqual(3, d.getAbsoluteExponent());
-        Test::assertIntEqual(3, d.getExponent());
-        Test::assertBoolEqual(true, d.isNormalized());
-        Test::assertStringEqual(s, d.str());
+        ASSERT_FALSE(d.isZero());
+        ASSERT_FALSE(d.isPositive());
+        ASSERT_TRUE(d.isExponentNonNegative());
+        ASSERT_EQ(3, d.getAbsoluteExponent());
+        ASSERT_EQ(3, d.getExponent());
+        ASSERT_TRUE(d.isNormalized());
+        ASSERT_EQ(s, d.str());
     }
 
     {
         const char* s = "-1";
         std::cout << "Testing " << s << std::endl;
         DecimalDecomposition d(s);
-        Test::assertBoolEqual(false, d.isZero());
-        Test::assertBoolEqual(false, d.isPositive());
-        Test::assertBoolEqual(true, d.isExponentNonNegative());
-        Test::assertIntEqual(0, d.getAbsoluteExponent());
-        Test::assertIntEqual(0, d.getExponent());
-        Test::assertBoolEqual(true, d.isNormalized());
-        Test::assertStringEqual(s, d.str());
+        ASSERT_FALSE(d.isZero());
+        ASSERT_FALSE(d.isPositive());
+        ASSERT_TRUE(d.isExponentNonNegative());
+        ASSERT_EQ(0, d.getAbsoluteExponent());
+        ASSERT_EQ(0, d.getExponent());
+        ASSERT_TRUE(d.isNormalized());
+        ASSERT_EQ(s, d.str());
     }
 
     {
         const char* s = "0";
         std::cout << "Testing " << s << std::endl;
         DecimalDecomposition d(s);
-        Test::assertBoolEqual(true, d.isZero());
-        Test::assertStringEqual(s, d.str());
+        ASSERT_TRUE(d.isZero());
+        ASSERT_EQ(s, d.str());
     }
 
     {
         const char* s = "-0.1";
         std::cout << "Testing " << s << std::endl;
         DecimalDecomposition d(s);
-        Test::assertBoolEqual(false, d.isZero());
-        Test::assertBoolEqual(false, d.isPositive());
-        Test::assertBoolEqual(false, d.isExponentNonNegative());
-        Test::assertIntEqual(1, d.getAbsoluteExponent());
-        Test::assertIntEqual(-1, d.getExponent());
-        Test::assertBoolEqual(true, d.isNormalized());
-        Test::assertStringEqual(s, d.str());
+        ASSERT_FALSE(d.isZero());
+        ASSERT_FALSE(d.isPositive());
+        ASSERT_FALSE(d.isExponentNonNegative());
+        ASSERT_EQ(1, d.getAbsoluteExponent());
+        ASSERT_EQ(-1, d.getExponent());
+        ASSERT_TRUE(d.isNormalized());
+        ASSERT_EQ(s, d.str());
     }
 
     {
         const char* s = "0.1";
         std::cout << "Testing " << s << std::endl;
         DecimalDecomposition d(s);
-        Test::assertBoolEqual(false, d.isZero());
-        Test::assertBoolEqual(true, d.isPositive());
-        Test::assertBoolEqual(false, d.isExponentNonNegative());
-        Test::assertIntEqual(1, d.getAbsoluteExponent());
-        Test::assertIntEqual(-1, d.getExponent());
-        Test::assertBoolEqual(true, d.isNormalized());
-        Test::assertStringEqual(s, d.str());
+        ASSERT_FALSE(d.isZero());
+        ASSERT_TRUE(d.isPositive());
+        ASSERT_FALSE(d.isExponentNonNegative());
+        ASSERT_EQ(1, d.getAbsoluteExponent());
+        ASSERT_EQ(-1, d.getExponent());
+        ASSERT_TRUE(d.isNormalized());
+        ASSERT_EQ(s, d.str());
     }
 
     {
         const char* s = "1123.12345234";
         std::cout << "Testing " << s << std::endl;
         DecimalDecomposition d(s);
-        Test::assertBoolEqual(false, d.isZero());
-        Test::assertBoolEqual(true, d.isPositive());
-        Test::assertBoolEqual(true, d.isExponentNonNegative());
-        Test::assertIntEqual(3, d.getAbsoluteExponent());
-        Test::assertIntEqual(3, d.getExponent());
-        Test::assertBoolEqual(true, d.isNormalized());
-        Test::assertStringEqual(s, d.str());
+        ASSERT_FALSE(d.isZero());
+        ASSERT_TRUE(d.isPositive());
+        ASSERT_TRUE(d.isExponentNonNegative());
+        ASSERT_EQ(3, d.getAbsoluteExponent());
+        ASSERT_EQ(3, d.getExponent());
+        ASSERT_TRUE(d.isNormalized());
+        ASSERT_EQ(s, d.str());
     }
 
     {
         const char* s = "-1123.12345234";
         std::cout << "Testing " << s << std::endl;
         DecimalDecomposition d(s);
-        Test::assertBoolEqual(false, d.isZero());
-        Test::assertBoolEqual(false, d.isPositive());
-        Test::assertBoolEqual(true, d.isExponentNonNegative());
-        Test::assertIntEqual(3, d.getAbsoluteExponent());
-        Test::assertIntEqual(3, d.getExponent());
-        Test::assertBoolEqual(true, d.isNormalized());
-        Test::assertStringEqual(s, d.str());
+        ASSERT_FALSE(d.isZero());
+        ASSERT_FALSE(d.isPositive());
+        ASSERT_TRUE(d.isExponentNonNegative());
+        ASSERT_EQ(3, d.getAbsoluteExponent());
+        ASSERT_EQ(3, d.getExponent());
+        ASSERT_TRUE(d.isNormalized());
+        ASSERT_EQ(s, d.str());
     }
 
     {
         const char* s = "-0.0000000112312345234";
         std::cout << "Testing " << s << std::endl;
         DecimalDecomposition d(s);
-        Test::assertBoolEqual(false, d.isZero());
-        Test::assertBoolEqual(false, d.isPositive());
-        Test::assertBoolEqual(false, d.isExponentNonNegative());
-        Test::assertIntEqual(8, d.getAbsoluteExponent());
-        Test::assertIntEqual(-8, d.getExponent());
-        Test::assertBoolEqual(true, d.isNormalized());
-        Test::assertStringEqual(s, d.str());
+        ASSERT_FALSE(d.isZero());
+        ASSERT_FALSE(d.isPositive());
+        ASSERT_FALSE(d.isExponentNonNegative());
+        ASSERT_EQ(8, d.getAbsoluteExponent());
+        ASSERT_EQ(-8, d.getExponent());
+        ASSERT_TRUE(d.isNormalized());
+        ASSERT_EQ(s, d.str());
     }
 
     {
         const char* s = "0.0000000112312345234";
         std::cout << "Testing " << s << std::endl;
         DecimalDecomposition d(s);
-        Test::assertBoolEqual(false, d.isZero());
-        Test::assertBoolEqual(true, d.isPositive());
-        Test::assertBoolEqual(false, d.isExponentNonNegative());
-        Test::assertIntEqual(8, d.getAbsoluteExponent());
-        Test::assertIntEqual(-8, d.getExponent());
-        Test::assertBoolEqual(true, d.isNormalized());
-        Test::assertStringEqual(s, d.str());
+        ASSERT_FALSE(d.isZero());
+        ASSERT_TRUE(d.isPositive());
+        ASSERT_FALSE(d.isExponentNonNegative());
+        ASSERT_EQ(8, d.getAbsoluteExponent());
+        ASSERT_EQ(-8, d.getExponent());
+        ASSERT_TRUE(d.isNormalized());
+        ASSERT_EQ(s, d.str());
     }
 
     {
@@ -142,15 +138,16 @@ void DecimalDecompositionTest::run()
         digits.push_back(1);
         digits.push_back(12);
         d.setDigits(digits);
-        Test::assertBoolEqual(false, d.isNormalized());
+        ASSERT_FALSE(d.isNormalized());
+
         d.renormalize();
-        Test::assertBoolEqual(true, d.isNormalized());
-        Test::assertBoolEqual(false, d.isZero());
-        Test::assertBoolEqual(true, d.isPositive());
-        Test::assertBoolEqual(true, d.isExponentNonNegative());
-        Test::assertIntEqual(3, d.getAbsoluteExponent());
-        Test::assertIntEqual(3, d.getExponent());
-        Test::assertStringEqual("2200", d.str());
+        ASSERT_TRUE(d.isNormalized());
+        ASSERT_FALSE(d.isZero());
+        ASSERT_TRUE(d.isPositive());
+        ASSERT_TRUE(d.isExponentNonNegative());
+        ASSERT_EQ(3, d.getAbsoluteExponent());
+        ASSERT_EQ(3, d.getExponent());
+        ASSERT_EQ("2200", d.str());
     }
 
     {
@@ -162,15 +159,16 @@ void DecimalDecompositionTest::run()
         digits.push_back(1);
         digits.push_back(123);
         d.setDigits(digits);
-        Test::assertBoolEqual(false, d.isNormalized());
+        ASSERT_FALSE(d.isNormalized());
+
         d.renormalize();
-        Test::assertBoolEqual(true, d.isNormalized());
-        Test::assertBoolEqual(false, d.isZero());
-        Test::assertBoolEqual(true, d.isPositive());
-        Test::assertBoolEqual(true, d.isExponentNonNegative());
-        Test::assertIntEqual(4, d.getAbsoluteExponent());
-        Test::assertIntEqual(4, d.getExponent());
-        Test::assertStringEqual("13300", d.str());
+        ASSERT_TRUE(d.isNormalized());
+        ASSERT_FALSE(d.isZero());
+        ASSERT_TRUE(d.isPositive());
+        ASSERT_TRUE(d.isExponentNonNegative());
+        ASSERT_EQ(4, d.getAbsoluteExponent());
+        ASSERT_EQ(4, d.getExponent());
+        ASSERT_EQ("13300", d.str());
     }
 
     {
@@ -182,15 +180,16 @@ void DecimalDecompositionTest::run()
         digits.push_back(1);
         digits.push_back(123);
         d.setDigits(digits);
-        Test::assertBoolEqual(false, d.isNormalized());
+        ASSERT_FALSE(d.isNormalized());
+
         d.renormalize();
-        Test::assertBoolEqual(true, d.isNormalized());
-        Test::assertBoolEqual(false, d.isZero());
-        Test::assertBoolEqual(true, d.isPositive());
-        Test::assertBoolEqual(false, d.isExponentNonNegative());
-        Test::assertIntEqual(2, d.getAbsoluteExponent());
-        Test::assertIntEqual(-2, d.getExponent());
-        Test::assertStringEqual("0.0133", d.str());
+        ASSERT_TRUE(d.isNormalized());
+        ASSERT_FALSE(d.isZero());
+        ASSERT_TRUE(d.isPositive());
+        ASSERT_FALSE(d.isExponentNonNegative());
+        ASSERT_EQ(2, d.getAbsoluteExponent());
+        ASSERT_EQ(-2, d.getExponent());
+        ASSERT_EQ("0.0133", d.str());
     }
 
     {
@@ -203,14 +202,15 @@ void DecimalDecompositionTest::run()
         digits.push_back(1);
         digits.push_back(12344);
         d.setDigits(digits);
-        Test::assertBoolEqual(false, d.isNormalized());
+        ASSERT_FALSE(d.isNormalized());
+
         d.renormalize();
-        Test::assertBoolEqual(true, d.isNormalized());
-        Test::assertBoolEqual(false, d.isZero());
-        Test::assertBoolEqual(true, d.isPositive());
-        Test::assertBoolEqual(true, d.isExponentNonNegative());
-        Test::assertIntEqual(1, d.getAbsoluteExponent());
-        Test::assertIntEqual(1, d.getExponent());
-        Test::assertStringEqual("12.354", d.str());
+        ASSERT_TRUE(d.isNormalized());
+        ASSERT_FALSE(d.isZero());
+        ASSERT_TRUE(d.isPositive());
+        ASSERT_TRUE(d.isExponentNonNegative());
+        ASSERT_EQ(1, d.getAbsoluteExponent());
+        ASSERT_EQ(1, d.getExponent());
+        ASSERT_EQ("12.354", d.str());
     }
 }
