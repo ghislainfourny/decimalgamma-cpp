@@ -1,5 +1,7 @@
 #include "util/bit_sequence.h"
 
+#include <string>
+
 //#define DEBUG_APPEND
 //#define DEBUG_BUILD
 
@@ -9,46 +11,46 @@ class DecimalDecomposition;
  * Implements the DecimalInfinite encoding.
  */
 
-namespace decimalinfinite
+namespace di
 {
-class Decimal {
+class decimal {
 public:
 	// Default constructors;
-	Decimal();
-	Decimal(const Decimal &other) = default;
+	decimal();
+	decimal(const decimal &other) = default;
 
 	// Conversion constructors
-	explicit Decimal(const char* const literal);
-	explicit Decimal(const std::string& literal) : Decimal(literal.c_str()) {}
+	explicit decimal(const char* const literal);
+	explicit decimal(const std::string& literal) : decimal(literal.c_str()) {}
 	// TODO: make faster by looking at bits directly.
-	explicit Decimal(const float& literal) : Decimal(std::to_string(literal)) {}
+	explicit decimal(const float& literal) : decimal(std::to_string(literal)) {}
 	// TODO: make faster by looking at bits directly.
-	explicit Decimal(const double& literal) : Decimal(std::to_string(literal)) {}
+	explicit decimal(const double& literal) : decimal(std::to_string(literal)) {}
 
 	operator float() const { return std::stof(str()); }; // TODO: make faster by looking at bits directly.
 	operator double() const { return std::stod(str()); }; // TODO: make faster by looking at bits directly.
 
 	// Assignment operators
-	Decimal& operator=(const Decimal& other) = default;
-	Decimal& operator=(const char * const other) { return *this = Decimal(other); }
-	Decimal& operator=(const std::string& other) { return *this = Decimal(other); }
-	Decimal& operator=(const float other) { return *this = Decimal(other); }
-	Decimal& operator=(const double other) { return *this = Decimal(other); }
+	decimal& operator=(const decimal& other) = default;
+	decimal& operator=(const char * const other) { return *this = decimal(other); }
+	decimal& operator=(const std::string& other) { return *this = decimal(other); }
+	decimal& operator=(const float other) { return *this = decimal(other); }
+	decimal& operator=(const double other) { return *this = decimal(other); }
 
 	// Increment operators
 	// TODO: make correct and precise.
-	Decimal& operator+=(Decimal other) { return *this = Decimal(double(*this) + double(other)); };
+	decimal& operator+=(decimal other) { return *this = decimal(double(*this) + double(other)); };
 	// TODO: make faster.
-	Decimal& operator+=(const char * const other) { return *this += Decimal(other); };
+	decimal& operator+=(const char * const other) { return *this += decimal(other); };
 	// TODO: make faster.
-	Decimal& operator+=(const std::string& other) { return *this += Decimal(other); };
+	decimal& operator+=(const std::string& other) { return *this += decimal(other); };
 	// TODO: make faster.
-	Decimal& operator+=(const float other) { return *this += Decimal(other); };
+	decimal& operator+=(const float other) { return *this += decimal(other); };
 	// TODO: make faster.
-	Decimal& operator+=(const double other) { return *this += Decimal(other); };
+	decimal& operator+=(const double other) { return *this += decimal(other); };
 
 	// To/from decimal composition
-	Decimal(const DecimalDecomposition& decomposition);
+	decimal(const DecimalDecomposition& decomposition);
 	void getDecomposition(DecimalDecomposition *decomposition) const;
 
 	/*

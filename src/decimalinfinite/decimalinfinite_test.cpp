@@ -2,6 +2,7 @@
 
 #include <iostream>
 using namespace std;
+using namespace di;
 
 void DecimalInfiniteTest::run() {
 	test("-123456789", "0000011011001101111110101101100000001101110");
@@ -41,3 +42,10 @@ void DecimalInfiniteTest::run() {
 	test("123456789", "1011100100001001110101010001101111101111010");
 }
 
+void DecimalInfiniteTest::test(std::string literal, std::string expected) {
+  decimal d(literal);
+  // Tests that the expected encoding is calculated.
+  Test::assertStringEqual(expected, d.dumpBits());
+  // Tests that decoding against leads to the original literal.
+  Test::assertStringEqual(literal, d.str());
+};

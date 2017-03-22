@@ -10,27 +10,27 @@
 
 #define LT(n) n, n, n, n, n, n, n, n, n, n, n, n, n, n, n, n
 
-const char decimalinfinite::Decimal::LogTable256[256] = { -1, 0, 1, 1, 2, 2, 2, 2, 3, 3,
+const char di::decimal::LogTable256[256] = { -1, 0, 1, 1, 2, 2, 2, 2, 3, 3,
 		3, 3, 3, 3, 3, 3, LT(4), LT(5), LT(5), LT(6), LT(6), LT(6), LT(6), LT(7),
 		LT(7), LT(7), LT(7), LT(7), LT(7), LT(7), LT(7) };
 
 //#define DEBUG_BUILD
 
-decimalinfinite::Decimal::Decimal() {
+di::decimal::decimal() {
 	_bits.appendBits(0b10, 2);
 }
 
-decimalinfinite::Decimal::Decimal(const char* const literal)
+di::decimal::decimal(const char* const literal)
 {
 	DecimalDecomposition decomposition(literal);
 	init(decomposition);
 }
 
-decimalinfinite::Decimal::Decimal(const DecimalDecomposition& decomposition) {
+di::decimal::decimal(const DecimalDecomposition& decomposition) {
 	init(decomposition);
 }
 
-void decimalinfinite::Decimal::init (const DecimalDecomposition& decomposition) {
+void di::decimal::init (const DecimalDecomposition& decomposition) {
 	int abs_offset_exponent = decomposition.getAbsoluteExponent() + 2;
 	bool invert_exponent_encoding = (decomposition.isPositive() != decomposition.isExponentNonNegative());
 #ifdef DEBUG_BUILD
@@ -112,11 +112,11 @@ void decimalinfinite::Decimal::init (const DecimalDecomposition& decomposition) 
 	}
 }
 
-std::string decimalinfinite::Decimal::dumpBits() {
+std::string di::decimal::dumpBits() {
 	return _bits.str();
 }
 
-unsigned int decimalinfinite::Decimal::log2(unsigned int v) {
+unsigned int di::decimal::log2(unsigned int v) {
 	register unsigned int tt = v >> 24;
 
 	if (tt) {
@@ -133,14 +133,14 @@ unsigned int decimalinfinite::Decimal::log2(unsigned int v) {
 	return LogTable256[v];
 }
 
-std::string decimalinfinite::Decimal::str() const
+std::string di::decimal::str() const
 {
 	DecimalDecomposition result;
 	getDecomposition(&result);
 	return result.str();
 }
 
-void decimalinfinite::Decimal::getDecomposition(::DecimalDecomposition *result) const
+void di::decimal::getDecomposition(::DecimalDecomposition *result) const
 {
 	if(_bits.getBits(0, 32) == (1 << 30))
 	{
