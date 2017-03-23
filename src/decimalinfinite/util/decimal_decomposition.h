@@ -8,6 +8,7 @@ public:
 	DecimalDecomposition(const DecimalDecomposition& other);
 
 	std::string str();
+	std::string dump();
 
 	bool isZero() const;
 	bool isPositive() const;
@@ -28,7 +29,7 @@ public:
 	void copy(const DecimalDecomposition& other);
 	void renormalize();
 
-	void add(const DecimalDecomposition& left, const DecimalDecomposition& right, DecimalDecomposition* result);
+	DecimalDecomposition operator+(const DecimalDecomposition& right);
 private:
 	bool _sign;
 	bool _exponent_sign;

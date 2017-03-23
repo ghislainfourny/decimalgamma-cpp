@@ -265,3 +265,21 @@ bool di::decimal::operator<(const decimal& other) const
     }
     return false;
 };
+
+di::decimal di::decimal::operator+(const decimal& other) const
+{
+    if(other == decimal())
+    {
+        return *this;
+    }
+    if(*this == decimal())
+    {
+        return other;
+    }
+    DecimalDecomposition left;
+    DecimalDecomposition right;
+    this->getDecomposition(&left);
+    other.getDecomposition(&right);
+    DecimalDecomposition result(left + right);
+    return di::decimal(result);
+}
