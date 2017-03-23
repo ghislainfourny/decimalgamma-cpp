@@ -64,10 +64,7 @@ class decimal
 
     // Increment operators
     // TODO: make correct and precise.
-    decimal& operator+=(decimal other)
-    {
-        return *this = *this + other;
-    };
+    decimal& operator+=(decimal other) { return *this = *this + other; };
     // TODO: make faster.
     decimal& operator+=(const char* const other)
     {
