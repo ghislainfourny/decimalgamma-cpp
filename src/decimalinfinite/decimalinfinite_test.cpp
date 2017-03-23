@@ -42,9 +42,9 @@ void DecimalInfiniteTest::run() {
 	test("200000", "10110110010");
 	test("2000000", "1011100000010");
 	test("20000000", "1011100010010");
-    test("123456789", "1011100100001001110101010001101111101111010");
+	test("123456789", "1011100100001001110101010001101111101111010");
 
-    testComparison();
+	testComparison();
 }
 
 void DecimalInfiniteTest::test(std::string literal, std::string expected) {
