@@ -231,33 +231,32 @@ void DecimalDecomposition::shiftExponent(int newExponent)
   setExponent(newExponent);
 }
 
-void DecimalDecomposition::add(const DecimalDecomposition& left, const DecimalDecomposition& right, DecimalDecomposition* result)
+DecimalDecomposition DecimalDecomposition::operator+(const DecimalDecomposition& right)
 {
-	if(left.isZero()) {
-		 result = new DecimalDecomposition(right);
-		 return;
+	if(this->isZero()) {
+		 return right;
 	}
 	if(right.isZero()) {
-		 result = new DecimalDecomposition(left);
-		 return;
+		 return *this;
 	}
-  int exponent_left = left.getExponent();
+  DecimalDecomposition result;
+  int exponent_left = this->getExponent();
   int exponent_right = right.getExponent();
-  DecimalDecomposition* other;
+  DecimalDecomposition other;
   if(exponent_left > exponent_right) {
-    result = new DecimalDecomposition(left);
-    other = new DecimalDecomposition(right);
-    other->shiftExponent(exponent_left);
+    result = *this;
+    other = right;
+    other.shiftExponent(exponent_left);
   } else
   {
-    result = new DecimalDecomposition(right);
-    other = new DecimalDecomposition(left);
-    other->shiftExponent(exponent_right);
+    result = right;
+    other = *this;
+    other.shiftExponent(exponent_right);
   }
   std::vector<int> digits;
-  result->getDigits(&digits);
+  result.getDigits(&digits);
   std::vector<int> digitsOther;
-  other->getDigits(&digitsOther);
+  other.getDigits(&digitsOther);
   if(digits.size() < digitsOther.size())
   {
   	digits.resize(digitsOther.size());
@@ -266,9 +265,9 @@ void DecimalDecomposition::add(const DecimalDecomposition& left, const DecimalDe
   {
   	digits[i] += digitsOther[i];
   }
-  result->setDigits(digits);
-  result->renormalize();
-  delete other;
+  result.setDigits(digits);
+  result.renormalize();
+  return result;
 }
 
 bool DecimalDecomposition::isNormalized()
@@ -315,3 +314,21 @@ void DecimalDecomposition::renormalize()
 		}
 	}
 }
+
+std::string DecimalDecomposition::dump()
+{
+    if(isZero()) {
+        return "Zero";
+    }
+    std::stringbuf buffer;
+    std::ostream os(&buffer);
+    os << "Sign: " << (_sign?"+":"-") << "|";
+    os << "Exponent sign: " << (_exponent_sign?"+":"-") << "|";
+    os << "Absolute exponent: " << _absolute_exponent << "|";
+    for (int i = 0; i < _digits.size(); ++i)
+    {
+      os << _digits.at(i) << "|";
+    }
+    return buffer.str();
+}
+

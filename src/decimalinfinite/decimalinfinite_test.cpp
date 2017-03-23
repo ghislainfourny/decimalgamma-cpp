@@ -45,6 +45,7 @@ void DecimalInfiniteTest::run() {
 	test("123456789", "1011100100001001110101010001101111101111010");
 
 	testComparison();
+	testAddition();
 }
 
 void DecimalInfiniteTest::test(std::string literal, std::string expected) {
@@ -112,4 +113,15 @@ void DecimalInfiniteTest::testComparison()
     Test::assertBoolEqual(false, decimal("-0.12345") > decimal("-0.12345"));
     Test::assertBoolEqual(true, decimal("-0.12345") <= decimal("-0.12345"));
     Test::assertBoolEqual(true, decimal("-0.12345") >= decimal("-0.12345"));
+}
+
+void DecimalInfiniteTest::testAddition()
+{
+    Test::assertBoolEqual(true, decimal("0") == decimal("0") + decimal("0"));
+    Test::assertBoolEqual(true, decimal("1") == decimal("1") + decimal("0"));
+    Test::assertBoolEqual(true, decimal("1") == decimal("0") + decimal("1"));
+    Test::assertBoolEqual(true, decimal("2") == decimal("1") + decimal("1"));
+    Test::assertBoolEqual(true, decimal("4") == decimal("2") + decimal("2"));
+    Test::assertBoolEqual(true, decimal("8") == decimal("4") + decimal("4"));
+    Test::assertBoolEqual(true, decimal("16") == decimal("8") + decimal("8"));
 }

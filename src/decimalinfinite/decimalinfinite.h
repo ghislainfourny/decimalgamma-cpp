@@ -46,6 +46,9 @@ public:
     bool operator>(const decimal& other) const { return other < *this; };
     bool operator>=(const decimal& other) const { return ! (*this < other); };
 
+    // Arithmetics operators
+    decimal operator+(const decimal& other) const;
+
 	// Increment operators
 	// TODO: make correct and precise.
 	decimal& operator+=(decimal other) { return *this = decimal(double(*this) + double(other)); };
