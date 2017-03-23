@@ -6,6 +6,10 @@ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/../cmake")
 set (CMAKE_CXX_STANDARD 14)
 set (CMAKE_C_STANDARD 11)
 
+# Setup google test suite
+add_subdirectory("${CMAKE_CURRENT_LIST_DIR}/../3rdparty/gtest" gtest)
+set(GTEST_LIBRARIES gtest gtest_main)
+
 # Target for static library
 add_library (decimal_infinite
     decimalinfinite/util/decimal_decomposition.cpp
@@ -13,15 +17,14 @@ add_library (decimal_infinite
     decimalinfinite/decimalinfinite.cpp
     )
 
-# Target for main test executable
-add_executable (decimal_infinite_test
-    main.cpp
-    decimalinfinite/util/test.cpp
-    decimalinfinite/util/decimal_decomposition_test.cpp
+# Target for test executable
+add_executable(decimalinfinite_tests
     decimalinfinite/util/bit_sequence_test.cpp
+    decimalinfinite/util/decimal_decomposition_test.cpp
     decimalinfinite/decimalinfinite_test.cpp
     )
-target_link_libraries (decimal_infinite_test decimal_infinite)
+target_link_libraries(decimalinfinite_tests ${GTEST_LIBRARIES} decimal_infinite)
+
 
 # Setup clang-format
 find_package (ClangFormat)
@@ -31,4 +34,4 @@ endif()
 
 # Setup unit tests
 enable_testing()
-add_test (decimal_infinite_test decimal_infinite_test)
+add_test (decimalinfinite_tests decimalinfinite_tests)
