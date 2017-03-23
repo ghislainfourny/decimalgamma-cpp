@@ -103,7 +103,7 @@ std::string BitSequence::str() {
 	return output.str().substr(0, _next);
 }
 
-unsigned int BitSequence::getBits(int i, int n)
+unsigned int BitSequence::getBits(int i, int n) const
 {
 	if(n > 32)
 	{
@@ -184,7 +184,7 @@ unsigned int BitSequence::getBits(int i, int n)
 	}
 };
 
-int BitSequence::length()
+int BitSequence::length() const
 {
 	return _next;
 }

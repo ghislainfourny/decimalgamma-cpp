@@ -2,8 +2,12 @@
 
 #include <iostream>
 using namespace std;
+using namespace di;
 
 void DecimalInfiniteTest::run() {
+    decimal d;
+    Test::assertStringEqual("0", d.str());
+
 	test("-123456789", "0000011011001101111110101101100000001101110");
 	test("-1000", "00001101001");
 	test("-100", "00001111001");
@@ -38,6 +42,40 @@ void DecimalInfiniteTest::run() {
 	test("200000", "10110110010");
 	test("2000000", "1011100000010");
 	test("20000000", "1011100010010");
-	test("123456789", "1011100100001001110101010001101111101111010");
+    test("123456789", "1011100100001001110101010001101111101111010");
 }
 
+void DecimalInfiniteTest::test(std::string literal, std::string expected) {
+  decimal d(literal);
+  // Tests that the expected encoding is calculated.
+  Test::assertStringEqual(expected, d.dumpBits());
+  // Tests that decoding against leads to the original literal.
+  Test::assertStringEqual(literal, d.str());
+
+  float f1 = float(d);
+  float f2 = std::stof(d.str());
+  Test::assertFloatEqual(f1, f2);
+
+  double d1 = double(d);
+  double d2 = std::stod(d.str());
+  Test::assertDoubleEqual(d1, d2);
+
+  d += 2.f;
+  float f3 = float(d);
+  Test::assertFloatEqual(f1 + 2.f, f3);
+
+  d += 2.;
+  double d3 = double(d);
+  Test::assertDoubleEqual(d1 + 4., d3);
+
+  d = decimal("1");
+  Test::assertDoubleEqual(double(d), 1.);
+  d = "2";
+  Test::assertDoubleEqual(double(d), 2.);
+  d = 3.f;
+  Test::assertDoubleEqual(double(d), 3.);
+  d = 4.;
+  Test::assertDoubleEqual(double(d), 4.);
+  d = std::string("5");
+  Test::assertDoubleEqual(double(d), 5.);
+};
