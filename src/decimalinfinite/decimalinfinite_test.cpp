@@ -42,7 +42,9 @@ void DecimalInfiniteTest::run() {
 	test("200000", "10110110010");
 	test("2000000", "1011100000010");
 	test("20000000", "1011100010010");
-    test("123456789", "1011100100001001110101010001101111101111010");
+	test("123456789", "1011100100001001110101010001101111101111010");
+
+	testComparison();
 }
 
 void DecimalInfiniteTest::test(std::string literal, std::string expected) {
@@ -79,3 +81,35 @@ void DecimalInfiniteTest::test(std::string literal, std::string expected) {
   d = std::string("5");
   Test::assertDoubleEqual(double(d), 5.);
 };
+
+void DecimalInfiniteTest::testComparison()
+{
+    Test::assertBoolEqual(true, decimal("0") == decimal("0"));
+    Test::assertBoolEqual(true, decimal("1") == decimal("1"));
+    Test::assertBoolEqual(true, decimal("11234") == decimal("11234"));
+    Test::assertBoolEqual(true, decimal("-12341") == decimal("-12341"));
+    Test::assertBoolEqual(true, decimal("-12341.09237450928374509823745") == decimal("-12341.09237450928374509823745"));
+    Test::assertBoolEqual(true, decimal("-123412340598234089234509237450928374509823745123412340598234089234509237450928374509823745") == decimal("-123412340598234089234509237450928374509823745123412340598234089234509237450928374509823745"));
+    Test::assertBoolEqual(false, decimal("1") == decimal("0"));
+    Test::assertBoolEqual(false, decimal("1") == decimal("-1"));
+
+    Test::assertBoolEqual(true, decimal("0") < decimal("1"));
+    Test::assertBoolEqual(true, decimal("0") < decimal("0.1"));
+    Test::assertBoolEqual(true, decimal("0") < decimal("12345"));
+    Test::assertBoolEqual(true, decimal("-1") < decimal("0"));
+    Test::assertBoolEqual(true, decimal("-123452") < decimal("0"));
+    Test::assertBoolEqual(true, decimal("-0.023451") < decimal("0"));
+
+    Test::assertBoolEqual(true, decimal("0.12345") < decimal("0.123456"));
+    Test::assertBoolEqual(true, decimal("0.12345") <= decimal("0.123456"));
+    Test::assertBoolEqual(false, decimal("0.12345") > decimal("0.123456"));
+    Test::assertBoolEqual(false, decimal("0.12345") >= decimal("0.123456"));
+    Test::assertBoolEqual(true, decimal("-0.12345") < decimal("0.123420379485702394857023948572034958720349587234"));
+    Test::assertBoolEqual(true, decimal("-0.12345") <= decimal("0.123420379485702394857023948572034958720349587234"));
+    Test::assertBoolEqual(false, decimal("-0.12345") > decimal("0.123420379485702394857023948572034958720349587234"));
+    Test::assertBoolEqual(false, decimal("-0.12345") >= decimal("0.123420379485702394857023948572034958720349587234"));
+    Test::assertBoolEqual(false, decimal("-0.12345") < decimal("-0.12345"));
+    Test::assertBoolEqual(false, decimal("-0.12345") > decimal("-0.12345"));
+    Test::assertBoolEqual(true, decimal("-0.12345") <= decimal("-0.12345"));
+    Test::assertBoolEqual(true, decimal("-0.12345") >= decimal("-0.12345"));
+}

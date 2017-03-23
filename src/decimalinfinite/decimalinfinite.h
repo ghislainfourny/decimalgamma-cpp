@@ -38,6 +38,14 @@ public:
 	decimal& operator=(const float other) { return *this = decimal(other); }
 	decimal& operator=(const double other) { return *this = decimal(other); }
 
+	// Comparison operators
+    bool operator==(const decimal& other) const;
+    bool operator!=(const decimal& other) const { return ! (*this == other); };
+    bool operator<(const decimal& other) const;
+    bool operator<=(const decimal& other) const { return ! (*this > other); };
+    bool operator>(const decimal& other) const { return other < *this; };
+    bool operator>=(const decimal& other) const { return ! (*this < other); };
+
 	// Increment operators
 	// TODO: make correct and precise.
 	decimal& operator+=(decimal other) { return *this = decimal(double(*this) + double(other)); };
