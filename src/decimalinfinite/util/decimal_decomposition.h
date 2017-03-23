@@ -9,7 +9,7 @@ class DecimalDecomposition
     DecimalDecomposition(const DecimalDecomposition& other);
 
     std::string str();
-    std::string dump();
+    std::string dump() const;
 
     bool isZero() const;
     bool isPositive() const;

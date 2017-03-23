@@ -290,12 +290,31 @@ DecimalDecomposition DecimalDecomposition::operator+(
     {
         digits.resize(digitsOther.size());
     }
-    for (int i = 0; i < digits.size(); ++i)
+    if (this->isPositive() == right.isPositive())
     {
-        digits[i] += digitsOther[i];
+        for (int i = 0; i < digits.size(); ++i)
+        {
+            digits[i] += digitsOther[i];
+        }
+    }
+    else
+    {
+        for (int i = 0; i < digits.size(); ++i)
+        {
+            digits[i] -= digitsOther[i];
+        }
     }
     result.setDigits(digits);
-    result.renormalize();
+    if (!result.isNormalized())
+    {
+        result.renormalize();
+    }
+    if (!result.isNormalized())
+    {
+        std::cout << "Error: result is not normalized: " << result.dump()
+                  << std::endl;
+        exit(1);
+    }
     return result;
 }
 
@@ -306,6 +325,7 @@ bool DecimalDecomposition::isNormalized()
     {
         if (*it < 0 || *it > 9) return false;
     }
+    if (_digits.size() > 0 && _digits.at(0) == 0) return false;
     return true;
 }
 
@@ -316,38 +336,81 @@ void DecimalDecomposition::renormalize()
          it != _digits.rend(); ++it)
     {
         *it += carry;
-        carry = *it / 10;
+        if (*it < 0)
+        {
+            carry = 0;
+            while (*it < 0)
+            {
+                *it += 10;
+            }
+            --carry;
+        }
+        else
+        {
+            carry = *it / 10;
+        }
         *it = *it % 10;
     }
-    if (_exponent_sign)
+    if (carry != 0)
     {
-        while (carry != 0)
+        if (_exponent_sign)
         {
-            ++_absolute_exponent;
-            _digits.insert(_digits.begin(), carry % 10);
-            carry /= 10;
+            while (carry != 0)
+            {
+                ++_absolute_exponent;
+                _digits.insert(_digits.begin(), carry % 10);
+                carry /= 10;
+            }
+        }
+        else
+        {
+            while (carry != 0)
+            {
+                if (_absolute_exponent == 0)
+                {
+                    _absolute_exponent = 1;
+                    _exponent_sign = true;
+                }
+                else
+                {
+                    --_absolute_exponent;
+                }
+                _digits.insert(_digits.begin(), carry % 10);
+                carry /= 10;
+            }
         }
     }
-    else
+    if (_digits.size() > 0)
     {
-        while (carry != 0)
+        while (_digits.at(0) == 0)
         {
-            if (_absolute_exponent == 0)
+            _digits.erase(_digits.begin());
+            if (!_exponent_sign)
+                ++_absolute_exponent;
+            else if (_absolute_exponent == 0)
             {
+                _exponent_sign = false;
                 _absolute_exponent = 1;
-                _exponent_sign = true;
             }
             else
             {
                 --_absolute_exponent;
             }
-            _digits.insert(_digits.begin(), carry % 10);
-            carry /= 10;
+        }
+        if (_digits.at(0) < 0)
+        {
+            _sign = !_sign;
+            for (int i = 0; i < _digits.size(); ++i)
+            {
+                _digits[i] = -_digits[i];
+            }
+            renormalize();
+            return;
         }
     }
 }
 
-std::string DecimalDecomposition::dump()
+std::string DecimalDecomposition::dump() const
 {
     if (isZero())
     {

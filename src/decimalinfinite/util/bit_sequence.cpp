@@ -15,13 +15,14 @@ void BitSequence::appendBits(uint i, int n)
     {
         std::cout << "Error: cannot write more than 32 bits at a time (" << n
                   << " bits written." << std::endl;
+        exit(1);
     }
     if ((i & ((-1) << n)) > 0)
     {
         std::cout << "Invalid parameters (" << n
                   << " bits expected) :" << std::bitset<BUFFER_SIZE>(i)
                   << std::endl;
-        exit(0);
+        exit(1);
     }
 #ifdef DEBUG_APPEND
     std::cout << "Before : " << str() << std::endl;
@@ -60,7 +61,7 @@ void BitSequence::appendBits(uint i, int n)
         if (shift < 0)
         {
             std::cout << "Error: negative shift!" << std::endl;
-            exit(0);
+            exit(1);
         }
 #ifdef DEBUG_APPEND
         std::cout << "shift " << shift << std::endl;
@@ -84,7 +85,7 @@ void BitSequence::appendBits(uint i, int n)
             if (shift < 0)
             {
                 std::cout << "Error: negative shift! " << shift << std::endl;
-                exit(0);
+                exit(1);
             }
 #ifdef DEBUG_APPEND
             std::cout << "shift " << shift << std::endl;
