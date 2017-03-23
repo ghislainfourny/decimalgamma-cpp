@@ -66,7 +66,7 @@ class decimal
     // TODO: make correct and precise.
     decimal& operator+=(decimal other)
     {
-        return *this = decimal(double(*this) + double(other));
+        return *this = *this + other;
     };
     // TODO: make faster.
     decimal& operator+=(const char* const other)
