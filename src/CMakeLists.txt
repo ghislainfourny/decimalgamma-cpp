@@ -3,6 +3,8 @@ project (DecimalInfiniteCpp)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/../cmake")
 
+include_directories("${PROJECT_SOURCE_DIR}")
+
 set (CMAKE_CXX_STANDARD 14)
 set (CMAKE_C_STANDARD 11)
 
@@ -25,6 +27,12 @@ add_executable(decimalinfinite_tests
     )
 target_link_libraries(decimalinfinite_tests ${GTEST_LIBRARIES} decimal_infinite)
 
+
+# Targets for microbenchmarks
+add_executable (accumulate_bench
+    benchmarks/accumulate_benchmark.cpp
+    )
+target_link_libraries (accumulate_bench decimal_infinite)
 
 # Setup clang-format
 find_package (ClangFormat)
