@@ -140,4 +140,36 @@ TEST(DecimalInfinite, Addition)
     ASSERT_TRUE(decimal("4") == decimal("2") + decimal("2"));
     ASSERT_TRUE(decimal("8") == decimal("4") + decimal("4"));
     ASSERT_TRUE(decimal("16") == decimal("8") + decimal("8"));
+
+    ASSERT_TRUE(decimal("11") == decimal("10") + decimal("1"));
+    ASSERT_TRUE(decimal("11") == decimal("1") + decimal("10"));
+    ASSERT_TRUE(decimal("101") == decimal("100") + decimal("1"));
+    ASSERT_TRUE(decimal("10000001") == decimal("10000000") + decimal("1"));
+    ASSERT_TRUE(decimal("10000001") == decimal("1") + decimal("10000000"));
+
+    ASSERT_TRUE(decimal("10.1") == decimal("10") + decimal("0.1"));
+    ASSERT_TRUE(decimal("1000000.0001") ==
+                decimal("1000000") + decimal("0.0001"));
+
+    ASSERT_TRUE(decimal("1111222211110000") ==
+                decimal("1111111100000000") + decimal("111111110000"));
+    ASSERT_TRUE(decimal("111122.2211110000") ==
+                decimal("111111.1100000000") + decimal("11.1111110000"));
+
+    ASSERT_TRUE(decimal("9") == decimal("10") + decimal("-1"));
+    ASSERT_TRUE(decimal("99") == decimal("100") + decimal("-1"));
+    ASSERT_TRUE(decimal("9999999") == decimal("10000000") + decimal("-1"));
+    ASSERT_TRUE(decimal("9999999") == decimal("-1") + decimal("10000000"));
+
+    ASSERT_TRUE(decimal("9.9") == decimal("10") + decimal("-0.1"));
+    ASSERT_TRUE(decimal("999999.9999") ==
+                decimal("1000000") + decimal("-0.0001"));
+
+    ASSERT_TRUE(decimal("1110999988990000") ==
+                decimal("1111111100000000") + decimal("-111111110000"));
+    ASSERT_TRUE(decimal("111099.9988990000") ==
+                decimal("111111.1100000000") + decimal("-11.1111110000"));
+
+    ASSERT_TRUE(decimal("20") == decimal("19") + decimal("1"));
+    ASSERT_TRUE(decimal("19") == decimal("20") + decimal("-1"));
 }

@@ -30,7 +30,7 @@ class DecimalDecomposition
     void copy(const DecimalDecomposition& other);
     void renormalize();
 
-    DecimalDecomposition operator+(const DecimalDecomposition& right);
+    DecimalDecomposition operator+=(const DecimalDecomposition& right);
 
   private:
     bool _sign;

@@ -255,7 +255,7 @@ void DecimalDecomposition::shiftExponent(int newExponent)
     setExponent(newExponent);
 }
 
-DecimalDecomposition DecimalDecomposition::operator+(
+DecimalDecomposition DecimalDecomposition::operator+=(
         const DecimalDecomposition& right)
 {
     if (this->isZero())
@@ -315,7 +315,8 @@ DecimalDecomposition DecimalDecomposition::operator+(
                   << std::endl;
         exit(1);
     }
-    return result;
+    *this = result;
+    return *this;
 }
 
 bool DecimalDecomposition::isNormalized()

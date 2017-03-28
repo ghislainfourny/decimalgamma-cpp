@@ -321,6 +321,6 @@ di::decimal di::decimal::operator+(const decimal& other) const
     DecimalDecomposition right;
     this->getDecomposition(&left);
     other.getDecomposition(&right);
-    DecimalDecomposition result(left + right);
-    return di::decimal(result);
+    left += right;
+    return di::decimal(left);
 }
