@@ -324,3 +324,24 @@ di::decimal di::decimal::operator+(const decimal& other) const
     left += right;
     return di::decimal(left);
 }
+
+di::decimal& di::decimal::operator+=(const decimal& other)
+{
+    if (other == decimal())
+    {
+        return *this;
+    }
+    if (*this == decimal())
+    {
+        *this = other;
+        return *this;
+    }
+    DecimalDecomposition left;
+    DecimalDecomposition right;
+    this->getDecomposition(&left);
+    other.getDecomposition(&right);
+    left += right;
+    this->_bits.reset();
+    this->init(left);
+    return *this;
+}
