@@ -215,3 +215,8 @@ unsigned int BitSequence::getBits(int i, int n) const
 };
 
 int BitSequence::length() const { return _next; }
+void BitSequence::reset()
+{
+    _next = 0;
+    _raw_bits.clear();
+}

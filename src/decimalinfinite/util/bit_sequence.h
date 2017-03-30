@@ -21,6 +21,8 @@ class BitSequence
 
     int length() const;
 
+    void reset();
+
   private:
     std::vector<int> _raw_bits;
     int _next;
