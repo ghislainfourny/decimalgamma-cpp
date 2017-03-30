@@ -260,62 +260,100 @@ DecimalDecomposition DecimalDecomposition::operator+=(
 {
     if (this->isZero())
     {
-        return right;
+        *this = right;
+        return *this;
     }
     if (right.isZero())
     {
         return *this;
     }
-    DecimalDecomposition result;
-    int exponent_left = this->getExponent();
-    int exponent_right = right.getExponent();
-    DecimalDecomposition other;
-    if (exponent_left > exponent_right)
+
+    int exponent_this = this->getExponent();
+    int exponent_other = right.getExponent();
+    int this_offset = 0;
+    int other_offset = 0;
+    if (exponent_other > exponent_this)
     {
-        result = *this;
-        other = right;
-        other.shiftExponent(exponent_left);
+        this->setExponent(exponent_other);
+        this_offset = exponent_other - exponent_this;
     }
     else
     {
-        result = right;
-        other = *this;
-        other.shiftExponent(exponent_right);
+        other_offset = exponent_this - exponent_other;
     }
-    std::vector<int> digits;
-    result.getDigits(&digits);
-    std::vector<int> digitsOther;
-    other.getDigits(&digitsOther);
-    if (digits.size() < digitsOther.size())
+
+    int i = _digits.size() + this_offset - 1;
+    if (right._digits.size() + other_offset > _digits.size() + this_offset)
     {
-        digits.resize(digitsOther.size());
+        i = right._digits.size() + other_offset - 1;
     }
+    _digits.resize(i + 1);
+
     if (this->isPositive() == right.isPositive())
     {
-        for (int i = 0; i < digits.size(); ++i)
+        for (; i >= 0; --i)
         {
-            digits[i] += digitsOther[i];
+            if (i - other_offset < 0 ||
+                i - other_offset >= right._digits.size())
+            {
+                if (i - this_offset < 0)
+                {
+                    _digits[i] = 0;
+                }
+                else
+                {
+                    _digits[i] = _digits[i - this_offset];
+                }
+            }
+            else if (i - this_offset < 0)
+            {
+                _digits[i] = right._digits[i - other_offset];
+            }
+            else
+            {
+                _digits[i] = _digits[i - this_offset] +
+                             right._digits[i - other_offset];
+            }
         }
     }
     else
     {
-        for (int i = 0; i < digits.size(); ++i)
+        for (; i >= 0; --i)
         {
-            digits[i] -= digitsOther[i];
+            if (i - other_offset < 0 ||
+                i - other_offset >= right._digits.size())
+            {
+                if (i - this_offset < 0)
+                {
+                    _digits[i] = 0;
+                }
+                else
+                {
+                    _digits[i] = _digits[i - this_offset];
+                }
+            }
+            else if (i - this_offset < 0)
+            {
+                _digits[i] = -right._digits[i - other_offset];
+            }
+            else
+            {
+                _digits[i] = _digits[i - this_offset] -
+                             right._digits[i - other_offset];
+            }
         }
     }
-    result.setDigits(digits);
-    if (!result.isNormalized())
+    if (!this->isNormalized())
     {
-        result.renormalize();
+        this->renormalize();
     }
-    if (!result.isNormalized())
+    if (!this->isNormalized())
     {
-        std::cout << "Error: result is not normalized: " << result.dump()
+        // TODO switch to exception when other branch is merged.
+        std::cout << "Error: result is not normalized: " << this->dump()
                   << std::endl;
         exit(1);
     }
-    *this = result;
     return *this;
 }
 
@@ -336,21 +374,24 @@ void DecimalDecomposition::renormalize()
     for (std::vector<int>::reverse_iterator it = _digits.rbegin();
          it != _digits.rend(); ++it)
     {
-        *it += carry;
-        if (*it < 0)
+        if (carry != 0 || *it < 0 || *it > 9)
         {
-            carry = 0;
-            while (*it < 0)
+            *it += carry;
+            if (*it < 0)
             {
-                *it += 10;
+                carry = 0;
+                while (*it < 0)
+                {
+                    *it += 10;
+                }
+                --carry;
             }
-            --carry;
+            else
+            {
+                carry = *it / 10;
+            }
+            *it = *it % 10;
         }
-        else
-        {
-            carry = *it / 10;
-        }
-        *it = *it % 10;
     }
     if (carry != 0)
     {
@@ -383,7 +424,7 @@ void DecimalDecomposition::renormalize()
     }
     if (_digits.size() > 0)
     {
-        while (_digits.at(0) == 0)
+        while (!_digits.empty() && _digits.at(0) == 0)
         {
             _digits.erase(_digits.begin());
             if (!_exponent_sign)
@@ -398,7 +439,7 @@ void DecimalDecomposition::renormalize()
                 --_absolute_exponent;
             }
         }
-        if (_digits.at(0) < 0)
+        if (!_digits.empty() && _digits.at(0) < 0)
         {
             _sign = !_sign;
             for (int i = 0; i < _digits.size(); ++i)
