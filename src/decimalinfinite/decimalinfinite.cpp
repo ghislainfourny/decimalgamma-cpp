@@ -93,7 +93,7 @@ void di::decimal::init(const DecimalDecomposition& decomposition)
 
     std::vector<DigitType> digits;
     decomposition.getDigits(&digits);
-    int first = digits.at(0);
+    int first = digits[0];
     if (!decomposition.isPositive())
     {
         first = 10 - first;
@@ -107,15 +107,15 @@ void di::decimal::init(const DecimalDecomposition& decomposition)
     while (next < digits.size())
     {
         int a = 0, b = 0, c = 0;
-        a = digits.at(next++);
+        a = digits[next++];
         bool isLast = (next + 3 >= digits.size());
         if (next < digits.size())
         {
-            b = digits.at(next++);
+            b = digits[next++];
         }
         if (next < digits.size())
         {
-            c = digits.at(next++);
+            c = digits[next++];
         }
         unsigned int towrite = 100 * a + 10 * b + c;
         if (!decomposition.isPositive())

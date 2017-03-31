@@ -87,7 +87,7 @@ void DecimalDecomposition::encode(const char* const literal)
     }
 
     int i = _digits.size() - 1;
-    while (i != -1 && _digits.at(i) == 0)
+    while (i != -1 && _digits[i] == 0)
     {
         _digits.pop_back();
         --i;
@@ -173,7 +173,7 @@ void DecimalDecomposition::setDigits(const std::vector<DigitType>& digits)
 {
     _digits = digits;
     int i = _digits.size() - 1;
-    while (i != -1 && _digits.at(i) == 0)
+    while (i != -1 && _digits[i] == 0)
     {
         _digits.pop_back();
         --i;
@@ -197,7 +197,7 @@ std::string DecimalDecomposition::str()
         bool period = false;
         for (int i = 0; i < _digits.size(); ++i)
         {
-            ss.put('0' + _digits.at(i));
+            ss.put('0' + _digits[i]);
             if (!period)
             {
                 --exponent;
@@ -226,7 +226,7 @@ std::string DecimalDecomposition::str()
         }
         for (int i = 0; i < _digits.size(); ++i)
         {
-            ss.put('0' + _digits.at(i));
+            ss.put('0' + _digits[i]);
         }
     }
     return ss.str();
@@ -369,7 +369,7 @@ bool DecimalDecomposition::isNormalized()
     {
         if (*it < 0 || *it > 9) return false;
     }
-    if (_digits.size() > 0 && _digits.at(0) == 0) return false;
+    if (_digits.size() > 0 && _digits[0] == 0) return false;
     return true;
 }
 
@@ -431,7 +431,7 @@ void DecimalDecomposition::renormalize()
     }
     if (_digits.size() > 0)
     {
-        while (!_digits.empty() && _digits.at(0) == 0)
+        while (!_digits.empty() && _digits[0] == 0)
         {
             _digits.erase(_digits.begin());
             if (!_exponent_sign)
@@ -446,7 +446,7 @@ void DecimalDecomposition::renormalize()
                 --_absolute_exponent;
             }
         }
-        if (!_digits.empty() && _digits.at(0) < 0)
+        if (!_digits.empty() && _digits[0] < 0)
         {
             _sign = !_sign;
             for (int i = 0; i < _digits.size(); ++i)
@@ -472,7 +472,7 @@ std::string DecimalDecomposition::dump() const
     os << "Absolute exponent: " << _absolute_exponent << "|";
     for (int i = 0; i < _digits.size(); ++i)
     {
-        os << _digits.at(i) << "|";
+        os << _digits[i] << "|";
     }
     return buffer.str();
 }

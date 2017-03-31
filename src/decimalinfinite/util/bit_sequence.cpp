@@ -151,7 +151,7 @@ unsigned int BitSequence::getBits(int i, int n) const
         uint raw_bits = 0;
         if (buffer < _raw_bits.size())
         {
-            raw_bits = _raw_bits.at(buffer);
+            raw_bits = _raw_bits[buffer];
         }
         uint mask = (1 << (BUFFER_SIZE - position_in_buffer)) - 1;
         if (position_in_buffer == 0)
@@ -177,7 +177,7 @@ unsigned int BitSequence::getBits(int i, int n) const
         uint raw_bits = 0;
         if (buffer < _raw_bits.size())
         {
-            raw_bits = _raw_bits.at(buffer);
+            raw_bits = _raw_bits[buffer];
         }
         uint mask = (1 << (BUFFER_SIZE - position_in_buffer)) - 1;
         if (position_in_buffer == 0)
@@ -199,7 +199,7 @@ unsigned int BitSequence::getBits(int i, int n) const
         uint raw_bits2 = 0;
         if (buffer2 < _raw_bits.size())
         {
-            raw_bits2 = _raw_bits.at(buffer2);
+            raw_bits2 = _raw_bits[buffer2];
         }
         int length2 = n - (BUFFER_SIZE - position_in_buffer);
         uint mask2 = (-1) - ((1 << (BUFFER_SIZE - length2)) - 1);
