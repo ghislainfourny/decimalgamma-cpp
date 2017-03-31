@@ -1,4 +1,5 @@
 #include "decimal_decomposition.h"
+#include "exceptions.h"
 
 #include <iostream>
 #include <sstream>
@@ -62,8 +63,11 @@ void DecimalDecomposition::encode(const char* const literal)
         {
             if (p != literal)
             {
-                std::cout << "Error: illegal literal." << std::endl;
-                exit(0);
+                std::ostringstream b;
+                b << "Error: illegal literal (" << literal
+                  << "). Minus sign can only appear as first character."
+                  << std::endl;
+                throw decimal_decomposition_exception(b.str());
             }
             _sign = false;
         }
@@ -72,8 +76,10 @@ void DecimalDecomposition::encode(const char* const literal)
         {
             if (period)
             {
-                std::cout << "Error: illegal literal." << std::endl;
-                exit(0);
+                std::ostringstream b;
+                b << "Error: illegal literal (" << literal
+                  << "). Period can only appear once." << std::endl;
+                throw decimal_decomposition_exception(b.str());
             }
             period = true;
         }
@@ -349,10 +355,9 @@ DecimalDecomposition DecimalDecomposition::operator+=(
     }
     if (!this->isNormalized())
     {
-        // TODO switch to exception when other branch is merged.
-        std::cout << "Error: result is not normalized: " << this->dump()
-                  << std::endl;
-        exit(1);
+        std::ostringstream b;
+        b << "Error: result is not normalized: " << dump() << std::endl;
+        throw decimal_decomposition_exception(b.str());
     }
     return *this;
 }

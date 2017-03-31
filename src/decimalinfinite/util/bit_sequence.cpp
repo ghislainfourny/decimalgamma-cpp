@@ -1,4 +1,5 @@
 #include "bit_sequence.h"
+#include "exceptions.h"
 
 #include <bitset>
 #include <iomanip>
@@ -13,16 +14,18 @@ void BitSequence::appendBits(uint i, int n)
 {
     if (n > 32)
     {
-        std::cout << "Error: cannot write more than 32 bits at a time (" << n
-                  << " bits written." << std::endl;
-        exit(1);
+        std::ostringstream b;
+        b << "Error: cannot write more than 32 bits at a time (" << n
+          << " bits written"
+          << ")." << std::endl;
+        throw bit_sequence_exception(b.str());
     }
     if ((i & ((-1) << n)) > 0)
     {
-        std::cout << "Invalid parameters (" << n
-                  << " bits expected) :" << std::bitset<BUFFER_SIZE>(i)
-                  << std::endl;
-        exit(1);
+        std::ostringstream b;
+        b << "Invalid parameters (" << n
+          << " bits expected) :" << std::bitset<BUFFER_SIZE>(i) << std::endl;
+        throw bit_sequence_exception(b.str());
     }
 #ifdef DEBUG_APPEND
     std::cout << "Before : " << str() << std::endl;
@@ -60,8 +63,9 @@ void BitSequence::appendBits(uint i, int n)
     {
         if (shift < 0)
         {
-            std::cout << "Error: negative shift!" << std::endl;
-            exit(1);
+            std::ostringstream b;
+            b << "Error: negative shift! " << shift << std::endl;
+            throw bit_sequence_exception(b.str());
         }
 #ifdef DEBUG_APPEND
         std::cout << "shift " << shift << std::endl;
@@ -84,8 +88,9 @@ void BitSequence::appendBits(uint i, int n)
 #endif
             if (shift < 0)
             {
-                std::cout << "Error: negative shift! " << shift << std::endl;
-                exit(1);
+                std::ostringstream b;
+                b << "Error: negative shift! " << shift << std::endl;
+                throw bit_sequence_exception(b.str());
             }
 #ifdef DEBUG_APPEND
             std::cout << "shift " << shift << std::endl;

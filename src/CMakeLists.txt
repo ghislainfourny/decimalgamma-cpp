@@ -35,7 +35,7 @@ add_executable (accumulate_bench
 target_link_libraries (accumulate_bench decimal_infinite)
 
 # Setup clang-format
-find_package (ClangFormat 3.8)
+find_package (ClangFormat 4.0)
 if(ClangFormat_FOUND)
     enable_clang_format_targets()
 endif()
