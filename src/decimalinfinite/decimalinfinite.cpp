@@ -2,6 +2,7 @@
 
 #include "util/decimal_decomposition.h"
 
+#include <stdint.h>
 #include <bitset>
 #include <cmath>
 #include <iomanip>
@@ -90,7 +91,7 @@ void di::decimal::init(const DecimalDecomposition& decomposition)
         _bits.appendBits(abs_offset_exponent - (1 << (le - 1)), le - 1);
     }
 
-    std::vector<int> digits;
+    std::vector<DigitType> digits;
     decomposition.getDigits(&digits);
     int first = digits.at(0);
     if (!decomposition.isPositive())
@@ -228,7 +229,7 @@ void di::decimal::getDecomposition(::DecimalDecomposition* result) const
     {
         tetrade = 10 - tetrade;
     }
-    std::vector<int> digits;
+    std::vector<DigitType> digits;
     digits.push_back(tetrade);
 #ifdef DEBUG_BUILD
     std::cout << "Exponent bits: " << std::bitset<31>(exponent_bits)

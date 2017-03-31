@@ -1,6 +1,7 @@
 #include "decimal_decomposition.h"
 #include "exceptions.h"
 
+#include <stdint.h>
 #include <iostream>
 #include <sstream>
 
@@ -132,7 +133,7 @@ int DecimalDecomposition::getExponent() const
         return -_absolute_exponent;
 }
 
-void DecimalDecomposition::getDigits(std::vector<int>* digits) const
+void DecimalDecomposition::getDigits(std::vector<DigitType>* digits) const
 {
     *digits = _digits;
 }
@@ -168,7 +169,7 @@ void DecimalDecomposition::setExponent(int e)
     }
 }
 
-void DecimalDecomposition::setDigits(const std::vector<int>& digits)
+void DecimalDecomposition::setDigits(const std::vector<DigitType>& digits)
 {
     _digits = digits;
     int i = _digits.size() - 1;
@@ -241,7 +242,7 @@ void DecimalDecomposition::copy(const DecimalDecomposition& other)
     setAbsoluteExponent(other.getAbsoluteExponent());
     setPositive(other.isPositive());
     setExponentNonNegative(other.isExponentNonNegative());
-    std::vector<int> digits;
+    std::vector<DigitType> digits;
     other.getDigits(&digits);
     setDigits(digits);
 }
@@ -364,8 +365,7 @@ DecimalDecomposition DecimalDecomposition::operator+=(
 
 bool DecimalDecomposition::isNormalized()
 {
-    for (std::vector<int>::iterator it = _digits.begin(); it != _digits.end();
-         ++it)
+    for (auto it = _digits.begin(); it != _digits.end(); ++it)
     {
         if (*it < 0 || *it > 9) return false;
     }
@@ -376,8 +376,7 @@ bool DecimalDecomposition::isNormalized()
 void DecimalDecomposition::renormalize()
 {
     int carry = 0;
-    for (std::vector<int>::reverse_iterator it = _digits.rbegin();
-         it != _digits.rend(); ++it)
+    for (auto it = _digits.rbegin(); it != _digits.rend(); ++it)
     {
         if (carry != 0 || *it < 0 || *it > 9)
         {
@@ -416,11 +415,14 @@ void DecimalDecomposition::renormalize()
                 if (_absolute_exponent == 0)
                 {
                     _absolute_exponent = 1;
-                    _exponent_sign = true;
                 }
                 else
                 {
                     --_absolute_exponent;
+                    if (_absolute_exponent == 0)
+                    {
+                        _exponent_sign = true;
+                    }
                 }
                 _digits.insert(_digits.begin(), carry % 10);
                 carry /= 10;

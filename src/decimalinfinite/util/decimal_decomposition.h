@@ -1,5 +1,8 @@
+#include <stdint.h>
 #include <string>
 #include <vector>
+
+typedef int8_t DigitType;
 
 class DecimalDecomposition
 {
@@ -16,7 +19,7 @@ class DecimalDecomposition
     bool isExponentNonNegative() const;
     unsigned int getAbsoluteExponent() const;
     int getExponent() const;
-    void getDigits(std::vector<int>* digits) const;
+    void getDigits(std::vector<DigitType>* digits) const;
     unsigned int getNumberOfDigits() const;
     bool isNormalized();
 
@@ -26,7 +29,7 @@ class DecimalDecomposition
     void setExponent(int);
     void setAbsoluteExponent(unsigned int e);
     void shiftExponent(int newExponent);
-    void setDigits(const std::vector<int>& digits);
+    void setDigits(const std::vector<DigitType>& digits);
     void copy(const DecimalDecomposition& other);
     void renormalize();
 
@@ -36,7 +39,7 @@ class DecimalDecomposition
     bool _sign;
     bool _exponent_sign;
     unsigned int _absolute_exponent;
-    std::vector<int> _digits;
+    std::vector<DigitType> _digits;
 
     void encode(const char* const literal);
 };
