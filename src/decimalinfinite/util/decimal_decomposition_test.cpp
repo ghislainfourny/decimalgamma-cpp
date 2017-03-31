@@ -1,4 +1,5 @@
 #include <gtest/gtest.h>
+#include <stdint.h>
 
 #include "decimal_decomposition.h"
 
@@ -134,7 +135,7 @@ TEST(DecimalDecomposition, BasicOperations)
         DecimalDecomposition d;
         d.setExponent(3);
         d.setPositive(true);
-        std::vector<int> digits;
+        std::vector<DigitType> digits;
         digits.push_back(1);
         digits.push_back(12);
         d.setDigits(digits);
@@ -155,7 +156,7 @@ TEST(DecimalDecomposition, BasicOperations)
         DecimalDecomposition d;
         d.setExponent(3);
         d.setPositive(true);
-        std::vector<int> digits;
+        std::vector<DigitType> digits;
         digits.push_back(1);
         digits.push_back(123);
         d.setDigits(digits);
@@ -176,7 +177,7 @@ TEST(DecimalDecomposition, BasicOperations)
         DecimalDecomposition d;
         d.setExponent(-3);
         d.setPositive(true);
-        std::vector<int> digits;
+        std::vector<DigitType> digits;
         digits.push_back(1);
         digits.push_back(123);
         d.setDigits(digits);
@@ -196,11 +197,11 @@ TEST(DecimalDecomposition, BasicOperations)
         std::cout << "Testing renormalization (negative to positive)."
                   << std::endl;
         DecimalDecomposition d;
-        d.setExponent(-2);
+        d.setExponent(-1);
         d.setPositive(true);
-        std::vector<int> digits;
+        std::vector<DigitType> digits;
         digits.push_back(1);
-        digits.push_back(12344);
+        digits.push_back(123);
         d.setDigits(digits);
         ASSERT_FALSE(d.isNormalized());
 
@@ -209,8 +210,8 @@ TEST(DecimalDecomposition, BasicOperations)
         ASSERT_FALSE(d.isZero());
         ASSERT_TRUE(d.isPositive());
         ASSERT_TRUE(d.isExponentNonNegative());
-        ASSERT_EQ(1, d.getAbsoluteExponent());
-        ASSERT_EQ(1, d.getExponent());
-        ASSERT_EQ("12.354", d.str());
+        ASSERT_EQ(0, d.getAbsoluteExponent());
+        ASSERT_EQ(0, d.getExponent());
+        ASSERT_EQ("1.33", d.str());
     }
 }
