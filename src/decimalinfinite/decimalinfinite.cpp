@@ -2,6 +2,7 @@
 
 #include "util/decimal_decomposition.h"
 
+#include <assert.h>
 #include <stdint.h>
 #include <bitset>
 #include <cmath>
@@ -224,12 +225,15 @@ void di::decimal::getDecomposition(::DecimalDecomposition* result) const
         result->setExponentNonNegative(false);
     }
     int start = 3 + 2 * le;
+    std::vector<DigitType> digits;
+    size_t neededCapacity = 1 + 3 * (_bits.length() - start - 4) / 10;
+    digits.reserve(neededCapacity);
+
     uint tetrade = _bits.getBits(start, 4);
     if (!result->isPositive())
     {
         tetrade = 10 - tetrade;
     }
-    std::vector<DigitType> digits;
     digits.push_back(tetrade);
 #ifdef DEBUG_BUILD
     std::cout << "Exponent bits: " << std::bitset<31>(exponent_bits)
@@ -261,6 +265,7 @@ void di::decimal::getDecomposition(::DecimalDecomposition* result) const
         digits.push_back(declet % 10);
         start += 10;
     }
+    assert(digits.capacity() == neededCapacity);
     result->setDigits(digits);
 }
 
