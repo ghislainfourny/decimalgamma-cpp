@@ -29,7 +29,7 @@ class DecimalDecomposition
     void setExponent(int);
     void setAbsoluteExponent(unsigned int e);
     void shiftExponent(int newExponent);
-    void setDigits(const std::vector<DigitType>& digits);
+    void setDigits(std::vector<DigitType>&& digits);
     void copy(const DecimalDecomposition& other);
     void renormalize();
 

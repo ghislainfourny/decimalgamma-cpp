@@ -266,7 +266,7 @@ void di::decimal::getDecomposition(::DecimalDecomposition* result) const
         start += 10;
     }
     assert(digits.capacity() == neededCapacity);
-    result->setDigits(digits);
+    result->setDigits(std::move(digits));
 }
 
 bool di::decimal::operator==(const decimal& other) const

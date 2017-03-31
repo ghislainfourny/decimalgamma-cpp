@@ -138,7 +138,7 @@ TEST(DecimalDecomposition, BasicOperations)
         std::vector<DigitType> digits;
         digits.push_back(1);
         digits.push_back(12);
-        d.setDigits(digits);
+        d.setDigits(std::move(digits));
         ASSERT_FALSE(d.isNormalized());
 
         d.renormalize();
@@ -159,7 +159,7 @@ TEST(DecimalDecomposition, BasicOperations)
         std::vector<DigitType> digits;
         digits.push_back(1);
         digits.push_back(123);
-        d.setDigits(digits);
+        d.setDigits(std::move(digits));
         ASSERT_FALSE(d.isNormalized());
 
         d.renormalize();
@@ -180,7 +180,7 @@ TEST(DecimalDecomposition, BasicOperations)
         std::vector<DigitType> digits;
         digits.push_back(1);
         digits.push_back(123);
-        d.setDigits(digits);
+        d.setDigits(std::move(digits));
         ASSERT_FALSE(d.isNormalized());
 
         d.renormalize();
@@ -202,7 +202,7 @@ TEST(DecimalDecomposition, BasicOperations)
         std::vector<DigitType> digits;
         digits.push_back(1);
         digits.push_back(123);
-        d.setDigits(digits);
+        d.setDigits(std::move(digits));
         ASSERT_FALSE(d.isNormalized());
 
         d.renormalize();
