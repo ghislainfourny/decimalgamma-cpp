@@ -1,4 +1,4 @@
-build:
+release:
   stage: build
   image: ingomuellernet/buildenv
   before_script:
@@ -6,8 +6,22 @@ build:
     - git submodule update --init --recursive
   script:
     - cd gen
-    - cmake ../src
-    - make
+    - cmake -DCMAKE_BUILD_TYPE=Release ../src
+    - VERBOSE=1 make
+  artifacts:
+    paths:
+      - gen
+
+debug:
+  stage: build
+  image: ingomuellernet/buildenv
+  before_script:
+    - git submodule sync --recursive
+    - git submodule update --init --recursive
+  script:
+    - cd gen
+    - cmake -DCMAKE_BUILD_TYPE=Debug ../src
+    - VERBOSE=1 make
   artifacts:
     paths:
       - gen
@@ -19,7 +33,7 @@ test:
     - cd gen
     - make test CTEST_OUTPUT_ON_FAILURE=1
   dependencies:
-    - build
+    - debug
 
 format:
   stage: build

@@ -56,8 +56,10 @@ void accumulate_benchmark(const size_t Nmax, const char *const type_name)
 
         // Print result
         auto const diff = duration_cast<nanoseconds>(end - start).count();
-        std::printf("{ \"type\": \"%s\", \"N\": %zi, \"runtime\": %zi }\n",
-                    type_name, N, diff);
+        std::printf(
+                "{ \"type\": \"%s\", \"N\": %zi, \"runtime\": %zi, \"sum\": %f "
+                "}\n",
+                type_name, N, diff, static_cast<float>(a));
     }
 }
 
