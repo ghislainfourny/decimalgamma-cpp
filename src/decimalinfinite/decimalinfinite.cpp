@@ -186,8 +186,9 @@ void di::decimal::getDecomposition(::DecimalDecomposition* result) const
         std::cerr << "Decoding error: invalid first two bits: "
                   << std::bitset<2>(sign_bits) << std::endl;
     }
-    bool exponent_inverted = (_bits.getBits(2, 1) == 0b0);
-    uint exponent_bits = _bits.getBits(2, 31);
+    uint exponent_bits = _bits.getBits(2, 30);
+    bool exponent_inverted =
+            (exponent_bits & 0b00100000000000000000000000000000) == 0;
     uint le = 0;
     if (exponent_inverted)
     {
@@ -206,10 +207,11 @@ void di::decimal::getDecomposition(::DecimalDecomposition* result) const
         std::cout << "Exponent bits4: "
                   << log2(exponent_bits xor ((uint)-1 >> 1)) << std::endl;
 #endif
-        le = log2(exponent_bits xor ((uint)-1) >> 1);
+        le = log2(exponent_bits xor ((uint)-1) >> 2);
     }
-    le = 30 - le;
-    uint absolute_exponent = _bits.getBits(3 + le, le);
+    le = 29 - le;
+    uint absolute_exponent =
+            (exponent_bits >> (29 - 2 * le)) & ((uint)-1 >> (32 - le));
     if (exponent_inverted)
     {
         absolute_exponent = absolute_exponent xor ((1 << le) - 1);
