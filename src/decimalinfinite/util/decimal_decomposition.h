@@ -29,9 +29,16 @@ class DecimalDecomposition
     void setExponent(int);
     void setAbsoluteExponent(unsigned int e);
     void shiftExponent(int newExponent);
-    void setDigits(std::vector<DigitType>&& digits);
     void copy(const DecimalDecomposition& other);
     void renormalize();
+
+    void appendDigits(unsigned int newDigits, unsigned int numberOfDigits);
+    void reserveDigits(size_t size);
+    size_t capacityOfDigits() const;
+    void finalizeDigits();
+    void clearDigits();
+    // For tests only
+    void setDigits(std::vector<DigitType>&& digits);
 
     DecimalDecomposition operator+=(const DecimalDecomposition& right);
 

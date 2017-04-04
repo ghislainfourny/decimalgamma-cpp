@@ -227,16 +227,16 @@ void di::decimal::getDecomposition(::DecimalDecomposition* result) const
         result->setExponentNonNegative(false);
     }
     int start = 3 + 2 * le;
-    std::vector<DigitType> digits;
+
     size_t neededCapacity = 1 + 3 * (_bits.length() - start - 4) / 10;
-    digits.reserve(neededCapacity);
+    result->reserveDigits(neededCapacity);
 
     uint tetrade = _bits.getBits(start, 4);
     if (!result->isPositive())
     {
         tetrade = 10 - tetrade;
     }
-    digits.push_back(tetrade);
+    result->appendDigits(tetrade, 1);
 #ifdef DEBUG_BUILD
     std::cout << "Exponent bits: " << std::bitset<31>(exponent_bits)
               << std::endl;
@@ -262,13 +262,11 @@ void di::decimal::getDecomposition(::DecimalDecomposition* result) const
                 declet = 999 - declet;
             }
         }
-        digits.push_back(declet / 100);
-        digits.push_back((declet % 100) / 10);
-        digits.push_back(declet % 10);
+        result->appendDigits(declet, 3);
         start += 10;
     }
-    assert(digits.capacity() == neededCapacity);
-    result->setDigits(std::move(digits));
+    assert(result->capacityOfDigits() == neededCapacity);
+    result->finalizeDigits();
 }
 
 bool di::decimal::operator==(const decimal& other) const
