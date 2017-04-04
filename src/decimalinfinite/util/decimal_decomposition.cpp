@@ -1,6 +1,7 @@
 #include "decimal_decomposition.h"
 #include "exceptions.h"
 
+#include <assert.h>
 #include <stdint.h>
 #include <iostream>
 #include <sstream>
@@ -239,12 +240,10 @@ void DecimalDecomposition::copy(const DecimalDecomposition& other)
         setZero();
         return;
     };
-    setAbsoluteExponent(other.getAbsoluteExponent());
-    setPositive(other.isPositive());
-    setExponentNonNegative(other.isExponentNonNegative());
-    std::vector<DigitType> digits;
-    other.getDigits(&digits);
-    setDigits(std::move(digits));
+    _sign = other._sign;
+    _absolute_exponent = other._absolute_exponent;
+    _exponent_sign = other._exponent_sign;
+    _digits = other._digits;
 }
 
 void DecimalDecomposition::shiftExponent(int newExponent)
@@ -476,3 +475,39 @@ std::string DecimalDecomposition::dump() const
     }
     return buffer.str();
 }
+
+void DecimalDecomposition::appendDigits(unsigned int newDigits,
+                                        unsigned int numberOfDigits)
+{
+    assert(numberOfDigits < 10);
+    int dividend = 1;
+    for (int j = 0; j < numberOfDigits - 1; ++j)
+    {
+        dividend *= 10;
+    }
+    for (int j = numberOfDigits; j > 0; --j)
+    {
+        unsigned int digit = (newDigits / dividend) % 10;
+        _digits.push_back(digit);
+        dividend /= 10;
+    }
+}
+
+void DecimalDecomposition::finalizeDigits()
+{
+    int i = _digits.size() - 1;
+    while (i != -1 && _digits[i] == 0)
+    {
+        _digits.pop_back();
+        --i;
+    }
+}
+
+void DecimalDecomposition::reserveDigits(size_t size) { _digits.reserve(size); }
+
+size_t DecimalDecomposition::capacityOfDigits() const
+{
+    return _digits.capacity();
+}
+
+void DecimalDecomposition::clearDigits() { _digits.clear(); }
