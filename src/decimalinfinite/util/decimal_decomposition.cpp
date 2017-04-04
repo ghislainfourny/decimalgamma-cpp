@@ -169,7 +169,7 @@ void DecimalDecomposition::setExponent(int e)
     }
 }
 
-void DecimalDecomposition::setDigits(const std::vector<DigitType>& digits)
+void DecimalDecomposition::setDigits(std::vector<DigitType>&& digits)
 {
     _digits = digits;
     int i = _digits.size() - 1;
@@ -244,7 +244,7 @@ void DecimalDecomposition::copy(const DecimalDecomposition& other)
     setExponentNonNegative(other.isExponentNonNegative());
     std::vector<DigitType> digits;
     other.getDigits(&digits);
-    setDigits(digits);
+    setDigits(std::move(digits));
 }
 
 void DecimalDecomposition::shiftExponent(int newExponent)
