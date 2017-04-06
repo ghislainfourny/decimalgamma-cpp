@@ -8,49 +8,41 @@ using namespace di;
 
 void EncodeDecodeTest(std::string literal, std::string expected)
 {
-    try
+    decimal d(literal);
+    // Tests that the expected encoding is calculated.
+    ASSERT_EQ(expected, d.dumpBits());
+    // Tests that decoding against leads to the original literal.
+    ASSERT_EQ(literal, d.str());
+
+    float f1 = float(d);
+    float f2 = std::stof(d.str());
+    ASSERT_EQ(f1, f2);
+
+    double d1 = double(d);
+    double d2 = std::stod(d.str());
+    ASSERT_EQ(d1, d2);
+
+    d += 2.f;
+    if (d.str().length() < 10)
     {
-        decimal d(literal);
-        // Tests that the expected encoding is calculated.
-        ASSERT_EQ(expected, d.dumpBits());
-        // Tests that decoding against leads to the original literal.
-        ASSERT_EQ(literal, d.str());
-
-        float f1 = float(d);
-        float f2 = std::stof(d.str());
-        ASSERT_EQ(f1, f2);
-
-        double d1 = double(d);
-        double d2 = std::stod(d.str());
-        ASSERT_EQ(d1, d2);
-
-        d += 2.f;
-        if (d.str().length() < 10)
-        {
-            float f3 = float(d);
-            ASSERT_EQ(f1 + 2.f, f3);
-        }
-
-        d += 2.;
-        double d3 = double(d);
-        ASSERT_EQ(d1 + 4., d3);
-
-        d = decimal("1");
-        ASSERT_EQ(double(d), 1.);
-        d = "2";
-        ASSERT_EQ(double(d), 2.);
-        d = 3.f;
-        ASSERT_EQ(double(d), 3.);
-        d = 4.;
-        ASSERT_EQ(double(d), 4.);
-        d = std::string("5");
-        ASSERT_EQ(double(d), 5.);
+        float f3 = float(d);
+        ASSERT_EQ(f1 + 2.f, f3);
     }
-    catch (std::exception& e)
-    {
-        std::cerr << "Exception raised." << std::endl;
-        std::cerr << e.what();
-    }
+
+    d += 2.;
+    double d3 = double(d);
+    ASSERT_EQ(d1 + 4., d3);
+
+    d = decimal("1");
+    ASSERT_EQ(double(d), 1.);
+    d = "2";
+    ASSERT_EQ(double(d), 2.);
+    d = 3.f;
+    ASSERT_EQ(double(d), 3.);
+    d = 4.;
+    ASSERT_EQ(double(d), 4.);
+    d = std::string("5");
+    ASSERT_EQ(double(d), 5.);
 };
 
 TEST(DecimalInfinite, EncodeDecode)
