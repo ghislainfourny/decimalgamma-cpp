@@ -168,9 +168,10 @@ std::string di::decimal::str() const
 
 void di::decimal::getDecomposition(::DecimalDecomposition* result) const
 {
-    if (_bits.getBits(0, 32) == (1 << 30))
+    if (_bits.getBits(0, 32) == (1 << 31))
     {
         result->setZero();
+        return;
     }
     unsigned int sign_bits = _bits.getBits(0, 2);
     if (sign_bits == 0b00)
