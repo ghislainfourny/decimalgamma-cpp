@@ -76,6 +76,7 @@ TEST(DecimalInfinite, EncodeDecode)
     EncodeDecodeTest("10", "101010001");
     EncodeDecodeTest("11", "1010100010001100100");
     EncodeDecodeTest("20", "101010010");
+    EncodeDecodeTest("100", "10110000001");
     EncodeDecodeTest("200", "10110000010");
     EncodeDecodeTest("2000", "10110010010");
     EncodeDecodeTest("20000", "10110100010");
