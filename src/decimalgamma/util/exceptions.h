@@ -1,12 +1,12 @@
 /*
- * decimalinfinite_exceptions.h
+ * decimalgamma_exceptions.h
  *
  *  Created on: 28 Mar 2017
  *      Author: ghislain
  */
 
-#ifndef DECIMALINFINITE_UTIL_EXCEPTIONS_H_
-#define DECIMALINFINITE_UTIL_EXCEPTIONS_H_
+#ifndef DECIMALGAMMA_UTIL_EXCEPTIONS_H_
+#define DECIMALGAMMA_UTIL_EXCEPTIONS_H_
 
 #include <exception>
 #include <sstream>
@@ -33,4 +33,4 @@ class decimal_decomposition_exception : public std::exception
     std::string _message;
 };
 
-#endif /* DECIMALINFINITE_UTIL_EXCEPTIONS_H_ */
+#endif /* DECIMALGAMMA_UTIL_EXCEPTIONS_H_ */

@@ -2,7 +2,7 @@
 
 #include <string>
 
-#include "decimalinfinite.h"
+#include "decimalgamma.h"
 
 using namespace di;
 
@@ -45,7 +45,7 @@ void EncodeDecodeTest(std::string literal, std::string expected)
     ASSERT_EQ(double(d), 5.);
 };
 
-TEST(DecimalInfinite, EncodeDecode)
+TEST(DecimalGamma, EncodeDecode)
 {
     EncodeDecodeTest("-123456789",
                      "0000011011001101111110101101100000001101110");
@@ -87,7 +87,7 @@ TEST(DecimalInfinite, EncodeDecode)
                      "1011100100001001110101010001101111101111010");
 }
 
-TEST(DecimalInfinite, Comparison)
+TEST(DecimalGamma, Comparison)
 {
     ASSERT_TRUE(decimal("0") == decimal("0"));
     ASSERT_TRUE(decimal("1") == decimal("1"));
@@ -132,7 +132,7 @@ TEST(DecimalInfinite, Comparison)
     ASSERT_TRUE(decimal("-0.12345") >= decimal("-0.12345"));
 }
 
-TEST(DecimalInfinite, Addition)
+TEST(DecimalGamma, Addition)
 {
     ASSERT_TRUE(decimal("0") == decimal("0") + decimal("0"));
     ASSERT_TRUE(decimal("1") == decimal("1") + decimal("0"));

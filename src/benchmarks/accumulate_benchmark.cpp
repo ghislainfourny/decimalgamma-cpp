@@ -6,7 +6,7 @@
 #include <iostream>
 #include <random>
 
-#include "decimalinfinite/decimalinfinite.h"
+#include "decimalgamma/decimalgamma.h"
 
 /**
  * Generate vector of random numbers following the given distribution.
@@ -67,5 +67,5 @@ int main()
 {
     const int Nmax = 1 * 1024 * 1024;
     accumulate_benchmark<float, float>(Nmax, "float");
-    accumulate_benchmark<float, di::decimal>(Nmax, "decimalinfinite");
+    accumulate_benchmark<float, di::decimal>(Nmax, "decimalgamma");
 }

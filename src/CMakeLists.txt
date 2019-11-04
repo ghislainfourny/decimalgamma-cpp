@@ -11,7 +11,7 @@ set(CMAKE_BUILD_TYPE "${CMAKE_BUILD_TYPE}"
 message(STATUS "Using build type: ${CMAKE_BUILD_TYPE}")
 
 # Set up project, cmake, and default options
-project (DecimalInfiniteCpp)
+project (DecimalGammaCpp)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/../cmake")
 
@@ -26,18 +26,18 @@ set(GTEST_LIBRARIES gtest gtest_main)
 
 # Target for static library
 add_library (decimal_infinite
-    decimalinfinite/util/decimal_decomposition.cpp
-    decimalinfinite/util/bit_sequence.cpp
-    decimalinfinite/decimalinfinite.cpp
+    decimalgamma/util/decimal_decomposition.cpp
+    decimalgamma/util/bit_sequence.cpp
+    decimalgamma/decimalgamma.cpp
     )
 
 # Target for test executable
-add_executable(decimalinfinite_tests
-    decimalinfinite/util/bit_sequence_test.cpp
-    decimalinfinite/util/decimal_decomposition_test.cpp
-    decimalinfinite/decimalinfinite_test.cpp
+add_executable(decimalgamma_tests
+    decimalgamma/util/bit_sequence_test.cpp
+    decimalgamma/util/decimal_decomposition_test.cpp
+    decimalgamma/decimalgamma_test.cpp
     )
-target_link_libraries(decimalinfinite_tests ${GTEST_LIBRARIES} decimal_infinite)
+target_link_libraries(decimalgamma_tests ${GTEST_LIBRARIES} decimal_infinite)
 
 
 # Targets for microbenchmarks
@@ -54,4 +54,4 @@ endif()
 
 # Setup unit tests
 enable_testing()
-add_test (decimalinfinite_tests decimalinfinite_tests)
+add_test (decimalgamma_tests decimalgamma_tests)

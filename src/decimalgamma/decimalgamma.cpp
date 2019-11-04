@@ -1,4 +1,4 @@
-#include "decimalinfinite.h"
+#include "decimalgamma.h"
 
 #include "util/decimal_decomposition.h"
 
